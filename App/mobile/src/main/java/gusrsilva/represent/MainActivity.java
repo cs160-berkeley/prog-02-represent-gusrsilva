@@ -45,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
+                //startActivity(intent);
+
+                Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+                sendIntent.putExtra("REP_NAME", "Barbara");
+                startService(sendIntent);
             }
         });
 

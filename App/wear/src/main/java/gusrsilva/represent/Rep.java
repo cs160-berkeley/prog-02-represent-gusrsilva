@@ -14,16 +14,8 @@ public class Rep {
     private String email;
     private String website;
     private String imageUri;
-
-    public int getImageResource() {
-        return imageResource;
-    }
-
-    public void setImageResource(int imageResource) {
-        this.imageResource = imageResource;
-    }
-
     private int imageResource;
+    private int color;
 
     public Rep()
     {
@@ -76,6 +68,22 @@ public class Rep {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
 }

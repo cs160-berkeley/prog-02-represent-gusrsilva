@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rep2"
     android:id="@+id/holder"
+    android:layout_gravity="bottom"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -15,14 +16,14 @@
         <android.support.wearable.view.CardFrame
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:id="@+id/cardFrame"
             android:layout_width="fill_parent">
 
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:gravity="bottom"
-                android:paddingLeft="5dp">
+                android:gravity="bottom">
 
                 <TextView
                     android:fontFamily="sans-serif-light"
@@ -30,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:text="Representative"
                     android:textColor="@android:color/secondary_text_dark"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:id="@+id/type" />
@@ -39,12 +40,13 @@
                     android:fontFamily="sans-serif-light"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:text="Gus Silva"
+                    android:text="Dianne Feinstein"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:layout_gravity="center"
                     android:textAlignment="center"
-                    android:id="@+id/name" />
+                    android:id="@+id/name"
+                    android:textIsSelectable="false" />
 
                 <TextView
                     android:fontFamily="sans-serif-light"
@@ -52,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:text="Republican"
                     android:textColor="@android:color/secondary_text_dark"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:id="@+id/party"
                     android:layout_gravity="center"
                     android:textAlignment="center" />

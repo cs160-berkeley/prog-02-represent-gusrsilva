@@ -3,12 +3,14 @@ package gusrsilva.represent;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.CardFrame;
 import android.support.wearable.view.GridPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -39,12 +41,13 @@ public class CardAdapter extends GridPagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup viewGroup, int row, int col) {
+    public Object instantiateItem(ViewGroup viewGroup, int row, final int col) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.rep_card, null);
 
         Rep rep = repList.get(col);
         TextView type, name, party;
         BoxInsetLayout holder = (BoxInsetLayout)view.findViewById(R.id.holder);
+
         type = (TextView)view.findViewById(R.id.type);
         name = (TextView)view.findViewById(R.id.name);
         party = (TextView)view.findViewById(R.id.party);
@@ -52,8 +55,15 @@ public class CardAdapter extends GridPagerAdapter {
         type.setText(rep.getRepType());
         name.setText(rep.getName());
         party.setText(rep.getParty());
-        party.setTextColor(ContextCompat.getColor(mContext, R.color.dem_blue)); //TODO: Dynamically get color
+        party.setTextColor(rep.getColor());
         holder.setBackgroundResource(rep.getImageResource());
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardClicked(col);
+            }
+        });
+
 
 
         viewGroup.addView(view);
@@ -69,6 +79,11 @@ public class CardAdapter extends GridPagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object o) {
         return view.equals(o);
+    }
+
+    private void cardClicked(int col)
+    {
+        Toast.makeText(mContext, "Clicked: " + repList.get(col).getName(), Toast.LENGTH_SHORT).show();
     }
 }
 
