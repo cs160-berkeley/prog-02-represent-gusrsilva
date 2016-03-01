@@ -26,14 +26,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Democratic Senator"
-                android:id="@+id/textView"
+                android:id="@+id/party_type"
                 android:textColor="@color/textWhiteSecondary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Barbara Boxer"
-                android:id="@+id/textView2"
+                android:id="@+id/name"
                 android:textColor="@color/textWhitePrimary"
                 android:textSize="36sp"
                 android:fontFamily="sans-serif-light" />
@@ -269,7 +269,7 @@
             app:cardElevation="@dimen/card_elevation"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:id="@+id/billsCard"
             android:layout_below="@+id/comitteeCard">
 

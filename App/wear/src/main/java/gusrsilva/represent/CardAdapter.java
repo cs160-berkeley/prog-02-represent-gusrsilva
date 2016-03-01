@@ -1,6 +1,7 @@
 package gusrsilva.represent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.CardFrame;
@@ -60,7 +61,7 @@ public class CardAdapter extends GridPagerAdapter {
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardClicked(col);
+                MainActivity.cardClicked(col);
             }
         });
 
@@ -79,11 +80,6 @@ public class CardAdapter extends GridPagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object o) {
         return view.equals(o);
-    }
-
-    private void cardClicked(int col)
-    {
-        Toast.makeText(mContext, "Clicked: " + repList.get(col).getName(), Toast.LENGTH_SHORT).show();
     }
 }
 

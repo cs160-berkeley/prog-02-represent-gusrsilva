@@ -1,6 +1,7 @@
 package gusrsilva.represent;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,8 +63,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             holder.email.setText(currentRep.getEmail());
             holder.website.setText(currentRep.getWebsite());
             holder.moreInfo.setTag(position);
-            imageLoader.displayImage(currentRep.getImageUri(), holder.image, options);
-            // Load Image
+
+            imageLoader.displayImage("drawable://" + currentRep.getImageResource(), holder.image, options);
+
+            holder.email.setTextColor(currentRep.getColor());
+            holder.website.setTextColor(currentRep.getColor());
+            holder.moreInfo.setTextColor(currentRep.getColor());
         }
 
     }

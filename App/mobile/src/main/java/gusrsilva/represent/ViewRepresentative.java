@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 public class ViewRepresentative extends AppCompatActivity {
 
@@ -28,17 +29,27 @@ public class ViewRepresentative extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(MainActivity.currentRep == null)
+        int pos = getIntent().getIntExtra(MainActivity.REP_NUM, -1);
+
+        if(pos == -1 || MainActivity.repList == null || pos > MainActivity.repList.size())
         {
             finish();
             return;
         }
 
-        Rep currentRep = MainActivity.currentRep;
+        Rep currentRep = MainActivity.repList.get(pos);
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(" ");
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
-        collapsingToolbarLayout.setBackgroundResource(R.drawable.rep1_wide);
+        collapsingToolbarLayout.setBackgroundResource(currentRep.getWideImageResource());
+
+        TextView partyType = (TextView)findViewById(R.id.party_type);
+        TextView name = (TextView)findViewById(R.id.name);
+        partyType.setText(currentRep.getParty() + " " + currentRep.getRepType());
+        name.setText(currentRep.getName());
+
+
+
     }
 }

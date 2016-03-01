@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/dem_blue</color>
-    <color name="colorPrimaryDark">#2F60FF</color>
+    <color name="colorPrimaryDark">@color/dem_blue</color>
     <color name="colorAccent">@color/rep_red</color>
 
     <color name="dem_blue">#2F80ED</color>

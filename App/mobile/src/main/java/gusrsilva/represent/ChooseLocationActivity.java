@@ -53,6 +53,7 @@ public class ChooseLocationActivity extends AppCompatActivity{
         // Set up the login form.
 
         final EditText zipCode = (EditText)findViewById(R.id.zipCode);
+        zipCode.clearFocus();
         Button bUseCurrentLocation = (Button) findViewById(R.id.currentLocationButton);
         Button bContinue = (Button) findViewById(R.id.continueButton);
         bContinue.setOnClickListener(new OnClickListener() {

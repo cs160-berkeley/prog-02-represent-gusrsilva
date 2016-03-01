@@ -1,6 +1,9 @@
 package gusrsilva.represent;
 
 /**
+ * Created by GusSilva on 2/28/16.
+ */
+/**
  * Created by GusSilva on 2/24/16.
  */
 public class Rep {
@@ -11,10 +14,21 @@ public class Rep {
     private String email;
     private String website;
     private String imageUri;
+    private int imageResource;
+    private int wideImageResource;
+    private int color;
 
     public Rep()
     {
         //Default Constructor
+    }
+
+    public int getWideImageResource() {
+        return wideImageResource;
+    }
+
+    public void setWideImageResource(int wideImageResource) {
+        this.wideImageResource = wideImageResource;
     }
 
     public String getRepType() {
@@ -65,4 +79,21 @@ public class Rep {
         this.imageUri = imageUri;
     }
 
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
 }
+
