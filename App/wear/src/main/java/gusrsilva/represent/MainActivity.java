@@ -71,7 +71,9 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         rep3.setImageResource(R.drawable.rep3);
         rep3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.rep_red));
 
-        repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(rep1);
+        Rep dummy = new Rep(); dummy.setName("dummy"); //Dummy to make room for 2012 election view
+
+        repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(dummy);
         CardAdapter adapter = new CardAdapter(repList, getApplicationContext());
         pager.setAdapter(adapter);
 
@@ -96,9 +98,9 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
     public static void cardClicked(int pos)
     {
         Log.d("Represent!", "cardClicked() called");
+        repNumber = pos;
         mWatchApiClient.disconnect();
         mWatchApiClient.connect();
-        repNumber = pos;
     }
 
     @Override //alternate method to connecting: no longer create this in a new thread, but as a callback

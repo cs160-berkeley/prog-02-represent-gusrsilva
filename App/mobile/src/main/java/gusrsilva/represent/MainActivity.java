@@ -101,10 +101,6 @@ public class MainActivity extends AppCompatActivity {
         ListAdapter adt = new ListAdapter(repList, getApplicationContext());
         recyclerView.setAdapter(adt);
 
-        // Launch Watch
-        Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-        sendIntent.putExtra("REP_NAME", "Barbara");
-        startService(sendIntent);
     }
 
     @Override
