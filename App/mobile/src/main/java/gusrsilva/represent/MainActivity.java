@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String zip = getIntent().getExtras().getString(ZIP_CODE, "00000");
+        String zip = getIntent().getStringExtra(ZIP_CODE);
+        if(zip == null)
+            zip = "000000";
         Toast.makeText(getApplicationContext(), "Current Zip: " + zip, Toast.LENGTH_SHORT).show();
 
 
