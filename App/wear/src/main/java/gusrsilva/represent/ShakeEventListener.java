@@ -58,17 +58,14 @@ public class ShakeEventListener implements SensorEventListener {
         mAccel = mAccel * 0.9f + delta;
         if(mAccel > SHAKE_LIMIT) {
             listener.onShake();
-            Log.d(TAG, "onSensorChanged called. mAccel = " + mAccel);
         }
         else if(mAccel > LITTLE_SHAKE_LIMIT) {
             listener.onLittleShake();
-            Log.d(TAG, "onSensorChanged called. mAccel = " + mAccel);
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d(TAG, "Accuracy changed: " + accuracy);
     }
 
 }

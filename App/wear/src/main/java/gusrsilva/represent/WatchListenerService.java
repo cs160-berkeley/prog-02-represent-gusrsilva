@@ -17,17 +17,17 @@ public class WatchListenerService extends WearableListenerService{
     public void onMessageReceived(MessageEvent messageEvent) {
         //Toast.makeText(getApplicationContext(), "Message Received!", Toast.LENGTH_SHORT).show();
         String zip = new String(messageEvent.getData());
-        if(messageEvent.getPath().equalsIgnoreCase("/ZIP_CODE"))
+        if(messageEvent.getPath().equalsIgnoreCase("/zip_code"))
         {
-            //Log.d(TAG, "Launching MainActivity");
+            Log.d(TAG, "Received Zip Code in WatchListenerService: " + zip);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("ZIP_CODE", zip);
+            intent.putExtra(MainActivity.KEY_ZIP_CODE, zip);
             startActivity(intent);
         }
         else
         {
-            Log.d(TAG, "Failure!");
+            Log.d(TAG, "Failure! Path was: " + messageEvent.getPath());
         }
     }
 }
