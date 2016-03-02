@@ -28,15 +28,17 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
     private TextView mTextView;
-    private String TAG = "Represent!", zipCode = "00000";
+    public static String TAG = "Represent!", zipCode = "00000";
     private static GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     private static int repNumber = -1;
     private ShakeEventListener shaker;
+    private CardAdapter adapter;
     public static String KEY_ZIP_CODE = "zip_code";
     private final String PATH_REP_NUM = "/rep_num", PATH_ZIP_CODE = "/zip_code";
     private static final int ACTION_SEND_REP_NUM = 0, ACTION_SEND_RANDOM_ZIP = 1;
     private static int watchAction = -1;
+    private long lastShake = System.currentTimeMillis(), SHAKE_TIME_THRESHOLD = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         Rep dummy = new Rep(); dummy.setName("dummy"); //Dummy to make room for 2012 election view
 
         repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(dummy);
-        CardAdapter adapter = new CardAdapter(repList, getApplicationContext());
+        adapter = new CardAdapter(repList, getApplicationContext());
         pager.setAdapter(adapter);
 
 
@@ -95,7 +97,8 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
 
         shaker = new ShakeEventListener(this);
         zipCode = getIntent().getStringExtra(KEY_ZIP_CODE);
-
+        if(zipCode == null)
+            zipCode = "00000";
     }
 
     @Override
@@ -159,6 +162,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
                             Log.d(TAG, "Sent Zip Code: " + zipCode);
                         }
                     });
+            //restartActivity();
         }
         else
             Log.d(TAG, "Invalid Watch Action Specified");
@@ -190,17 +194,39 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
     @Override
     public void onShake() { //TODO: Maybe use current time to make sure shakes are at least 1 second apart
 
-        Log.d(TAG, "onShake()");
-        zipCode = generateRandomZip();
-        watchAction = ACTION_SEND_RANDOM_ZIP;
-        Log.d(TAG, "from onShake sending random zip: " + zipCode);
-        mWatchApiClient.disconnect();
-        mWatchApiClient.connect();
+        //Log.d(TAG, "onShake()");
+
+        long thisShake = System.currentTimeMillis();
+        long difference = thisShake - lastShake;
+
+        if(difference > SHAKE_TIME_THRESHOLD)
+        {
+            lastShake = thisShake;
+            zipCode = generateRandomZip();
+            watchAction = ACTION_SEND_RANDOM_ZIP;
+            Log.d(TAG, "thisShake: " + thisShake + "   lastShake: " + lastShake + "   diff: " + difference);
+            Log.d(TAG, "from onShake sending random zip: " + zipCode);
+            adapter.notifyDataSetChanged();
+            mWatchApiClient.disconnect();
+            mWatchApiClient.connect();
+
+            Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
+            startActivity(intent);
+
+            if(adapter.mChart != null) {
+                adapter.setData(2, 100);
+                adapter.mChart.invalidate();
+                adapter.mChart.notifyDataSetChanged();
+            }
+        }
+
     }
 
     @Override
     public void onLittleShake() {
-        Log.d(TAG, "onLittleShake");
+        //Log.d(TAG, "onLittleShake");
         //Toast.makeText(getApplicationContext(), "Little Shake!", Toast.LENGTH_SHORT).show();
 
     }
@@ -210,5 +236,12 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         Random rand = new Random(System.currentTimeMillis());
         int next = rand.nextInt(899999) + 10000;
         return String.valueOf(next);
+    }
+
+    private void restartActivity()
+    {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

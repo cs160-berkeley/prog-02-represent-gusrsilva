@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.CardFrame;
 import android.support.wearable.view.GridPagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.zip.Inflater;
 
 /**
@@ -31,8 +33,12 @@ import java.util.zip.Inflater;
 public class CardAdapter extends GridPagerAdapter {
 
     ArrayList<Rep> repList;
+    String[] dummyCities = {"Los Angeles,CA", "Upland, CA", "Quoahog, RI", "Boston, MA", "Berkeley, CA"};
     Context mContext;
-    PieChart mChart;
+    public PieChart mChart;
+    private String oldZip = "99999", city = dummyCities[0];
+    private int dummyY1 = 29, dummyY2 = 71;
+    private String TAG = "Represent!";
 
     public CardAdapter(ArrayList<Rep> reps, Context context)
     {
@@ -89,6 +95,8 @@ public class CardAdapter extends GridPagerAdapter {
             mChart.setDrawHoleEnabled(false);
             setData(2, 100);
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+            ((TextView)view.findViewById(R.id.location)).setText(city);
+
 
         }
         viewGroup.addView(view);
@@ -106,7 +114,7 @@ public class CardAdapter extends GridPagerAdapter {
         return view.equals(o);
     }
 
-    private void setData(int count, float range) {
+    public void setData(int count, float range) {
 
         float mult = range;
 
@@ -117,8 +125,34 @@ public class CardAdapter extends GridPagerAdapter {
         // drawn above each other.
 
         //TODO: Dynamically calculate results from API
-        yVals1.add(new Entry((float) 29, 0));
-        yVals1.add(new Entry((float) 71, 1));
+
+
+        Log.d(TAG, " setting PieChart Data. oldZip: " + oldZip + "   currZip: " + MainActivity.zipCode);
+        if (!oldZip.equalsIgnoreCase(MainActivity.zipCode))
+        {
+            Log.d(TAG, "Setting new location");
+            oldZip = MainActivity.zipCode;
+            Random rand = new Random(System.currentTimeMillis());
+            String oldCity = dummyCities[rand.nextInt(5)];
+            dummyY1 = rand.nextInt(30) + 30;
+            dummyY2 = 100 - dummyY1;
+
+            while(!city.equalsIgnoreCase(oldCity))
+            {
+                city = dummyCities[rand.nextInt(5)];
+                dummyY1 = rand.nextInt(30) + 30;
+                dummyY2 = 100 - dummyY1;
+            }
+
+            Log.d(TAG, "New values: " + dummyY1 + ", " + dummyY2);
+
+        }
+        else
+        {
+            Log.d(TAG, "Zip is the same!");
+        }
+        yVals1.add(new Entry((float) dummyY1, 0));
+        yVals1.add(new Entry((float) dummyY2, 1));
 
         ArrayList<String> xVals = new ArrayList<String>();
 

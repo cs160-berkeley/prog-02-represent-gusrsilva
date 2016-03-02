@@ -74,18 +74,16 @@ public class ChooseLocationActivity extends AppCompatActivity implements GoogleA
             public void onClick(View v) {
 
                 zip = zipCode.getText().toString();
-                //TODO: Process zip code
-                // Launch Watch
-                /*
-                Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-                sendIntent.putExtra(MainActivity.ZIP_CODE, zip);
-                startService(sendIntent);
-                */
-                mApiClient.disconnect();mApiClient.connect();
+                continueToMainActivity(zip);
+            }
+        });
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra(MainActivity.ZIP_CODE, zip);
-                startActivity(intent);
+        bUseCurrentLocation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dummy zip until I see how the API works
+                zip = "94704";
+                continueToMainActivity(zip);
             }
         });
 
@@ -139,6 +137,15 @@ public class ChooseLocationActivity extends AppCompatActivity implements GoogleA
             Wearable.MessageApi.sendMessage(
                     mApiClient, node.getId(), path, text.getBytes());
         }
+    }
+
+    private void continueToMainActivity(String zip)
+    {
+        mApiClient.disconnect();mApiClient.connect();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.ZIP_CODE, zip);
+        startActivity(intent);
     }
 }
 
