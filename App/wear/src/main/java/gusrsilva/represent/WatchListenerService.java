@@ -16,12 +16,13 @@ public class WatchListenerService extends WearableListenerService{
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         //Toast.makeText(getApplicationContext(), "Message Received!", Toast.LENGTH_SHORT).show();
-
-        if(messageEvent.getPath().equalsIgnoreCase("/show_reps"))
+        String zip = new String(messageEvent.getData());
+        if(messageEvent.getPath().equalsIgnoreCase("/ZIP_CODE"))
         {
-            Log.d(TAG, "Launching MainActivity");
+            //Log.d(TAG, "Launching MainActivity");
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("ZIP_CODE", zip);
             startActivity(intent);
         }
         else

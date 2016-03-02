@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewRepresentative extends AppCompatActivity {
 
@@ -31,8 +32,9 @@ public class ViewRepresentative extends AppCompatActivity {
 
         int pos = getIntent().getIntExtra(MainActivity.REP_NUM, -1);
 
-        if(pos == -1 || MainActivity.repList == null || pos > MainActivity.repList.size())
+        if(pos == -1 || MainActivity.repList == null || pos >= MainActivity.repList.size())
         {
+            Toast.makeText(getApplication(), "Error retreiving representatives", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

@@ -25,6 +25,7 @@ public class PhoneToWatchService extends Service{
 
     private GoogleApiClient mApiClient;
     private List<Node> nodes = new ArrayList<>();
+    private String zip;
 
 
 
@@ -57,6 +58,8 @@ public class PhoneToWatchService extends Service{
         // Which cat do we want to feed? Grab this info from INTENT
         // which was passed over when we called startService
 
+        zip = intent.getExtras().getString("ZIP_CODE", null);
+
         // Send the message with the cat name
         new Thread(new Runnable() {
             @Override
@@ -64,7 +67,7 @@ public class PhoneToWatchService extends Service{
                 //first, connect to the apiclient
                 mApiClient.connect();
                 //now that you're connected, send a massage with the cat name
-                sendMessage("/show_reps", "");
+                sendMessage("/ZIP_CODE", zip);
             }
         }).start();
 

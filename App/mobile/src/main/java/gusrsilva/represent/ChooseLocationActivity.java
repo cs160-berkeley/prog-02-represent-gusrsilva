@@ -59,13 +59,15 @@ public class ChooseLocationActivity extends AppCompatActivity{
         bContinue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch Watch
-                Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-                sendIntent.putExtra("REP_NAME", "Barbara");
-                startService(sendIntent);
 
                 String zip = zipCode.getText().toString();
                 //TODO: Process zip code
+                // Launch Watch
+                Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
+                sendIntent.putExtra("ZIP_CODE", zip);
+                startService(sendIntent);
+
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 //TODO: Maybe shared element of the card for transition
                 startActivity(intent);

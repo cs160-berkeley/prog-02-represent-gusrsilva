@@ -12,6 +12,7 @@ import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -24,13 +25,15 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends Activity implements GoogleApiClient.OnConnectionFailedListener
+        , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
     private TextView mTextView;
     private String TAG = "Represent!";
     private static GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     private static int repNumber = -1;
+    private ShakeEventListener shaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,22 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
                     .addOnConnectionFailedListener(this)
                     .build();
         }
+
+        shaker = new ShakeEventListener(this);
+    }
+
+    @Override
+    public void onPause()
+    {
+        shaker.unregisterListener();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume()
+    {
+        shaker.registerListener();
+        super.onResume();
     }
 
     @Override
@@ -140,4 +159,18 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         Log.d(TAG, "Connection Failed! " + connectionResult.toString());
     }
 
+    @Override
+    public void onShake() {
+
+        Log.d(TAG, "onShake()");
+        Toast.makeText(getApplicationContext(), "Big Shake!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onLittleShake() {
+        Log.d(TAG, "onLittleShake");
+        Toast.makeText(getApplicationContext(), "Little Shake!", Toast.LENGTH_SHORT).show();
+
+    }
 }
