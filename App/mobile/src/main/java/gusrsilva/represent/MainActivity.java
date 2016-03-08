@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
     private String TAG = "Represent!";
-    public static String REP_NUM = "rep_num", ZIP_CODE = "zip_code";
+    public static String REP_NUM = "rep_num", ZIP_CODE = "zip_code", location = null;
     public static ArrayList<Rep> repList = new ArrayList<>();
 
     @Override
@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
         String zip = getIntent().getStringExtra(ZIP_CODE);
         if(zip == null)
             zip = "000000";
-        Toast.makeText(getApplicationContext(), "Current Zip: " + zip, Toast.LENGTH_SHORT).show();
+        if(location == null)
+            Toast.makeText(getApplicationContext(), "Current Zip: " + zip, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getApplicationContext(), "Current Location: " + location, Toast.LENGTH_SHORT).show();
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);

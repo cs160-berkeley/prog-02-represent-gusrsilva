@@ -105,4 +105,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <string name="KEY_GOOGLE_GEO">AIzaSyBuURbmC8_AtehAfZ3G7VPYBClHtErrcpw</string>
+    <string name="KEY_SUNLIGHT">d42ec45e45f3419ba1503f90d7385127</string>
 </resources>
