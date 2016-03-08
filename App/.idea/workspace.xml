@@ -53,21 +53,21 @@
       <file leaf-file-name="ChooseLocationActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0116279">
-              <caret line="277" column="84" selection-start-line="277" selection-start-column="84" selection-end-line="277" selection-end-column="84" />
+            <state vertical-scroll-proportion="6.4411764">
+              <caret line="240" column="28" selection-start-line="240" selection-start-column="28" selection-end-line="240" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2954#3258#0" expanded="true" />
-                <element signature="e#3257#3258#0" expanded="true" />
-                <element signature="e#3309#4508#0" expanded="true" />
-                <element signature="e#4507#4508#0" expanded="true" />
+                <element signature="e#3018#3543#0" expanded="true" />
+                <element signature="e#3542#3543#0" expanded="true" />
+                <element signature="e#3594#4793#0" expanded="true" />
+                <element signature="e#4792#4793#0" expanded="true" />
                 <element signature="method#getZipFromLatLng#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="e#7691#7740#0" expanded="true" />
-                <element signature="e#8155#8204#0" expanded="true" />
-                <element signature="e#9002#11374#0" expanded="true" />
-                <element signature="e#11373#11374#0" expanded="true" />
-                <element signature="e#11392#11631#0" expanded="true" />
-                <element signature="e#11630#11631#0" expanded="true" />
+                <element signature="e#7976#8025#0" expanded="true" />
+                <element signature="e#8481#8530#0" expanded="true" />
+                <element signature="e#9670#12042#0" expanded="true" />
+                <element signature="e#12041#12042#0" expanded="true" />
+                <element signature="e#12060#12299#0" expanded="true" />
+                <element signature="e#12298#12299#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -3383,8 +3383,8 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917705" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917705" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917705" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -3508,21 +3508,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0116279">
-          <caret line="277" column="84" selection-start-line="277" selection-start-column="84" selection-end-line="277" selection-end-column="84" />
+        <state vertical-scroll-proportion="6.4411764">
+          <caret line="240" column="28" selection-start-line="240" selection-start-column="28" selection-end-line="240" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2954#3258#0" expanded="true" />
-            <element signature="e#3257#3258#0" expanded="true" />
-            <element signature="e#3309#4508#0" expanded="true" />
-            <element signature="e#4507#4508#0" expanded="true" />
+            <element signature="e#3018#3543#0" expanded="true" />
+            <element signature="e#3542#3543#0" expanded="true" />
+            <element signature="e#3594#4793#0" expanded="true" />
+            <element signature="e#4792#4793#0" expanded="true" />
             <element signature="method#getZipFromLatLng#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="e#7691#7740#0" expanded="true" />
-            <element signature="e#8155#8204#0" expanded="true" />
-            <element signature="e#9002#11374#0" expanded="true" />
-            <element signature="e#11373#11374#0" expanded="true" />
-            <element signature="e#11392#11631#0" expanded="true" />
-            <element signature="e#11630#11631#0" expanded="true" />
+            <element signature="e#7976#8025#0" expanded="true" />
+            <element signature="e#8481#8530#0" expanded="true" />
+            <element signature="e#9670#12042#0" expanded="true" />
+            <element signature="e#12041#12042#0" expanded="true" />
+            <element signature="e#12060#12299#0" expanded="true" />
+            <element signature="e#12298#12299#0" expanded="true" />
           </folding>
         </state>
       </provider>

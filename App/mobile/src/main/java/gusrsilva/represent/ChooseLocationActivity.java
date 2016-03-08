@@ -42,6 +42,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A login screen that offers login via email/password.
@@ -80,8 +82,13 @@ public class ChooseLocationActivity extends AppCompatActivity
 
                 zip = zipCode.getText().toString();
                 String url = buildUrlFromZip(zip);
-                createLocationFromUrl(url);
-                continueToMainActivity(zip);
+                if(url == null)
+                    Toast.makeText(getApplicationContext(), "Please enter a valid postal code", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    createLocationFromUrl(url);
+                    continueToMainActivity(zip);
+                }
             }
         });
 
@@ -216,11 +223,24 @@ public class ChooseLocationActivity extends AppCompatActivity
     {
 
         //"https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
-        String key = getResources().getString(R.string.KEY_GOOGLE_GEO);
-        return
-                String.format(Locale.ENGLISH,"https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s"
-                        , zip
-                        ,key);
+        if(isValidPostalCode(zip)) {
+            String key = getResources().getString(R.string.KEY_GOOGLE_GEO);
+            return
+                    String.format(Locale.ENGLISH, "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s"
+                            , zip
+                            , key);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private boolean isValidPostalCode(String postalCode) {
+        Pattern postalCodeRegex;
+        postalCodeRegex = Pattern.compile("^\\d{5}(?:[-\\s]\\d{4})?$");
+        Matcher m = postalCodeRegex.matcher(postalCode);
+        return m.matches();
     }
 
     private void createLocationFromUrl(String url)
