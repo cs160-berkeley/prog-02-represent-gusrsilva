@@ -34,6 +34,7 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,6 +61,8 @@ public class ChooseLocationActivity extends AppCompatActivity
     private String TAG = "Represent!";
     private static int PERMISSION_ACCESS_COURSE_LOCATION = 0, PERMISSION_INTERNET = 1;
     private String REVERSE_GEO_REQUEST = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
+    private final String COUNTY = "administrative_area_level_2", STATE = "administrative_area_level_1", CITY = "locality", ZIP = "postal_code";
+    public static Place currentPlace = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,8 @@ public class ChooseLocationActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 zip = zipCode.getText().toString();
+                String url = buildUrlFromZip(zip);
+                createLocationFromUrl(url);
                 continueToMainActivity(zip);
             }
         });
@@ -97,10 +102,8 @@ public class ChooseLocationActivity extends AppCompatActivity
                 if(mLastLocation != null)
                 {
 
-                    String tZip = getZipFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    if(tZip != null)
-                        zip = tZip;
-                    continueToMainActivity(zip);
+                    String url = buildUrlFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                    createLocationFromUrl(url);
                 }
                 else
                 {
@@ -209,7 +212,18 @@ public class ChooseLocationActivity extends AppCompatActivity
                         ,key);
     }
 
-    private void sendRequest(String url)
+    private String buildUrlFromZip(String zip)
+    {
+
+        //"https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
+        String key = getResources().getString(R.string.KEY_GOOGLE_GEO);
+        return
+                String.format(Locale.ENGLISH,"https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s"
+                        , zip
+                        ,key);
+    }
+
+    private void createLocationFromUrl(String url)
     {
         Log.d(TAG, "Calling attemptRequest()");
 
@@ -227,12 +241,41 @@ public class ChooseLocationActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        try {
-                            Log.d(TAG, response.getJSONArray("results").getJSONObject(0).getString("formatted_address"));
+                        try
+                        {
+
+                            JSONArray arr = response.getJSONArray("results").getJSONObject(0).getJSONArray("address_components");
+                            currentPlace = new Place();
+                            for(int i = 0; i < arr.length(); i++) {
+                                JSONObject currObj = arr.getJSONObject(i);
+                                JSONArray types = currObj.getJSONArray("types");
+                                String type = types.getString(0);
+                                switch(type)
+                                {
+                                    case STATE:
+                                        Log.d(TAG, "State: " + currObj.getString("short_name"));
+                                        currentPlace.setState(currObj.getString("short_name"));
+                                        break;
+                                    case CITY:
+                                        Log.d(TAG, "City: " + currObj.getString("short_name"));
+                                        currentPlace.setCity(currObj.getString("long_name"));
+                                        break;
+                                    case ZIP:
+                                        Log.d(TAG, "Zip: " + currObj.getString("short_name"));
+                                        currentPlace.setZip(currObj.getString("short_name"));
+                                        break;
+                                    case COUNTY:
+                                        Log.d(TAG, "County: " + currObj.getString("short_name"));
+                                        currentPlace.setCounty(currObj.getString("short_name"));
+                                        break;
+                                }
+                            }
+
                         }
                         catch (JSONException e)
                         {
                             Log.d(TAG, "Failed: " + e.toString());
+                            Toast.makeText(getApplicationContext(), "Error retrieving location.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
