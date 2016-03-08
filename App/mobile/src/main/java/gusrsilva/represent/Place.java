@@ -42,4 +42,12 @@ public class Place {
     public void setZip(String zip) {
         this.zip = zip;
     }
+
+    public String getPrettyLocation()
+    {
+        if(city != null && state != null)
+            return city + ", " + state;
+        else
+            return null;
+    }
 }

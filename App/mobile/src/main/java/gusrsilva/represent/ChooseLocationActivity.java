@@ -62,6 +62,7 @@ public class ChooseLocationActivity extends AppCompatActivity
     private String zip = "00000";
     private String TAG = "Represent!";
     private static int PERMISSION_ACCESS_COURSE_LOCATION = 0, PERMISSION_INTERNET = 1;
+    private int SEND_ZIP = 0, GET_LOCATION = 1, API_ACTION = -1;
     private String REVERSE_GEO_REQUEST = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
     private final String COUNTY = "administrative_area_level_2", STATE = "administrative_area_level_1", CITY = "locality", ZIP = "postal_code";
     public static Place currentPlace = null;
@@ -86,8 +87,12 @@ public class ChooseLocationActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Please enter a valid postal code", Toast.LENGTH_SHORT).show();
                 else
                 {
+                    API_ACTION = SEND_ZIP;
                     createLocationFromUrl(url);
-                    continueToMainActivity(zip);
+                    if(mApiClient.isConnected())
+                        sendWatchZip();
+                    else
+                        mApiClient.connect();
                 }
             }
         });
@@ -97,25 +102,11 @@ public class ChooseLocationActivity extends AppCompatActivity
             public void onClick(View v) {
                 // Dummy zip until I see how the API works
                 //zip = "94704";
-                Location mLastLocation = null;
-                if ( ContextCompat.checkSelfPermission( getApplicationContext()
-                        , android.Manifest.permission.ACCESS_COARSE_LOCATION )
-                        != PackageManager.PERMISSION_GRANTED ) {
-                    requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION, PERMISSION_ACCESS_COURSE_LOCATION);
-                }
-                else if (mApiClient.isConnected())
-                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                        mApiClient);
-                if(mLastLocation != null)
-                {
-
-                    String url = buildUrlFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    createLocationFromUrl(url);
-                }
+                API_ACTION = GET_LOCATION;
+                if(mApiClient.isConnected())
+                    getLocation();
                 else
-                {
-                    Toast.makeText(getApplicationContext(), "Error retrieving location.", Toast.LENGTH_SHORT).show();
-                }
+                    mApiClient.connect();
             }
         });
 
@@ -139,6 +130,17 @@ public class ChooseLocationActivity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
+        if(API_ACTION == SEND_ZIP)
+           sendWatchZip();
+        else if(API_ACTION == GET_LOCATION)
+            getLocation();
+        else
+            Toast.makeText(getApplicationContext(), "Invalid Action", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void sendWatchZip()
+    {
         Wearable.NodeApi.getConnectedNodes(mApiClient)
                 .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
                     @Override
@@ -148,10 +150,30 @@ public class ChooseLocationActivity extends AppCompatActivity
                         //when we find a connected node, we populate the list declared above
                         //finally, we can send a message
                         sendMessage("/zip_code", zip);
-                        Log.d(TAG, "Sent zipCode from ChooseLocationActivty. Zip= " + zip);
+                        //Log.d(TAG, "Sent zipCode from ChooseLocationActivty. Zip= " + zip);
+                        continueToMainActivity();
                     }
                 });
+    }
 
+    private void getLocation()
+    {
+        if ( ContextCompat.checkSelfPermission( getApplicationContext()
+                , android.Manifest.permission.ACCESS_COARSE_LOCATION )
+                != PackageManager.PERMISSION_GRANTED )
+        {
+            requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION, PERMISSION_ACCESS_COURSE_LOCATION);
+            return;
+        }
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+        if(mLastLocation != null)
+        {
+
+            String url = buildUrlFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            createLocationFromUrl(url);
+        }
+        else
+            Toast.makeText(getApplicationContext(), "Error retrieving location.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -172,12 +194,10 @@ public class ChooseLocationActivity extends AppCompatActivity
         }
     }
 
-    private void continueToMainActivity(String zip)
+    private void continueToMainActivity()
     {
-        mApiClient.disconnect();mApiClient.connect();
-
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra(MainActivity.ZIP_CODE, zip);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -186,26 +206,6 @@ public class ChooseLocationActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(this, new String[] {permission}, requestCode);
     }
 
-    private String getZipFromLatLng(double lat, double lng)
-    {
-        List<Address> lst = new ArrayList<>();
-        android.location.Geocoder geo = new Geocoder(getApplicationContext());
-        try {
-            lst = geo.getFromLocation(lat, lng, 1);
-            Address addr = lst.get(0);
-            String city = addr.getLocality();
-            String state = addr.getAdminArea();
-            Log.d(TAG, "Location: " + city+ ", " + state);
-            Log.d(TAG, "County: " + addr.getSubAdminArea());
-            if(city != null && state != null)
-                MainActivity.location = city + ", " + state;
-            return addr.getPostalCode();
-        }
-        catch (IOException e) {
-            Log.d(TAG, "Error getLocation(): " + e.toString());
-            return null;
-        }
-    }
 
     private String buildUrlFromLatLng(double lat, double lng)
     {
@@ -245,8 +245,6 @@ public class ChooseLocationActivity extends AppCompatActivity
 
     private void createLocationFromUrl(String url)
     {
-        Log.d(TAG, "Calling attemptRequest()");
-
         if ( ContextCompat.checkSelfPermission( getApplicationContext()
                 , Manifest.permission.INTERNET )
                 != PackageManager.PERMISSION_GRANTED )
@@ -273,19 +271,19 @@ public class ChooseLocationActivity extends AppCompatActivity
                                 switch(type)
                                 {
                                     case STATE:
-                                        Log.d(TAG, "State: " + currObj.getString("short_name"));
+                                        //Log.d(TAG, "State: " + currObj.getString("short_name"));
                                         currentPlace.setState(currObj.getString("short_name"));
                                         break;
                                     case CITY:
-                                        Log.d(TAG, "City: " + currObj.getString("short_name"));
+                                        //Log.d(TAG, "City: " + currObj.getString("short_name"));
                                         currentPlace.setCity(currObj.getString("long_name"));
                                         break;
                                     case ZIP:
-                                        Log.d(TAG, "Zip: " + currObj.getString("short_name"));
+                                        //Log.d(TAG, "Zip: " + currObj.getString("short_name"));
                                         currentPlace.setZip(currObj.getString("short_name"));
                                         break;
                                     case COUNTY:
-                                        Log.d(TAG, "County: " + currObj.getString("short_name"));
+                                        //Log.d(TAG, "County: " + currObj.getString("short_name"));
                                         currentPlace.setCounty(currObj.getString("short_name"));
                                         break;
                                 }
@@ -310,6 +308,12 @@ public class ChooseLocationActivity extends AppCompatActivity
 
         // add it to the RequestQueue
         queue.add(getRequest);
+        queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                continueToMainActivity();
+            }
+        });
     }
 }
 

@@ -33,7 +33,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-wearable:8.4.0'
     compile 'com.google.maps:google-maps-services:0.1.7'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.android.support:multidex:1.0.0'
-
-
+    compile 'com.android.support:multidex:1.0.1'
 }

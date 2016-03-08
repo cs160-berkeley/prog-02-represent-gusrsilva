@@ -14,6 +14,9 @@ public class Rep {
     private String email;
     private String website;
     private String imageUri;
+    private String bioId;
+    private String twitterId;
+    private String termStart, termEnd;
     private int imageResource;
     private int wideImageResource;
     private int color;
@@ -36,7 +39,10 @@ public class Rep {
     }
 
     public void setRepType(String repType) {
-        this.repType = repType;
+        if(repType.equalsIgnoreCase("house"))
+            this.repType = "Representative";
+        else
+            this.repType = "Senator";
     }
 
     public String getName() {
@@ -52,7 +58,12 @@ public class Rep {
     }
 
     public void setParty(String party) {
-        this.party = party;
+        if(party.equalsIgnoreCase("R")) {
+            this.party = "Republican";
+        }
+        else {
+            this.party = "Democrat";
+        }
     }
 
     public String getEmail() {
@@ -93,6 +104,59 @@ public class Rep {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public String getBioId() {
+        return bioId;
+    }
+
+    public void setBioId(String bioId) {
+        this.bioId = bioId;
+    }
+
+
+    public String getTwitterId() {
+        return twitterId;
+    }
+
+    public void setTwitterId(String twitterId) {
+        this.twitterId = twitterId;
+    }
+
+
+    public String getTermStart() {
+        return termStart;
+    }
+
+    public void setTermStart(String termStart) {
+        this.termStart = termStart;
+    }
+
+    public String getTermEnd() {
+        return termEnd;
+    }
+
+    public void setTermEnd(String termEnd) {
+        this.termEnd = termEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "Rep{" +
+                "repType='" + repType + '\'' +
+                ", name='" + name + '\'' +
+                ", party='" + party + '\'' +
+                ", email='" + email + '\'' +
+                ", website='" + website + '\'' +
+                ", imageUri='" + imageUri + '\'' +
+                ", bioId='" + bioId + '\'' +
+                ", twitterId='" + twitterId + '\'' +
+                ", termStart='" + termStart + '\'' +
+                ", termEnd='" + termEnd + '\'' +
+                ", imageResource=" + imageResource +
+                ", wideImageResource=" + wideImageResource +
+                ", color=" + color +
+                '}';
     }
 
 }
