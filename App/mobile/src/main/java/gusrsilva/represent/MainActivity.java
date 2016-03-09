@@ -32,6 +32,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +43,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,12 +55,18 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog dialog;
     private ListAdapter adt;
     private RecyclerView recyclerView;
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "XI1YkrqjI0iKPWtHpxqvjoxY2";
+    private static final String TWITTER_SECRET = "JzCQURwTp98Zip9rN5hNIpM68HGzNMG1DFOLa0qztlHtoO0oLe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // inside your activity (if you did not enable transitions in your theme)
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         // set an exit transition
         //getWindow().setExitTransition(new Explode()); // TODO: Enable
 
@@ -169,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject curr = results.getJSONObject(i);
                                 currRep.setName(curr.getString("first_name") + " " + curr.getString("last_name"));
                                 currRep.setBioId(curr.getString("bioguide_id"));
+                                currRep.setImageUri(String.format(Locale.ENGLISH
+                                        ,"https://theunitedstates.io/images/congress/original/%s.jpg"
+                                        , curr.get("bioguide_id")));
                                 currRep.setRepType(curr.getString("chamber"));
                                 currRep.setEmail(curr.getString("oc_email"));
                                 currRep.setParty(curr.getString("party"));
@@ -191,10 +206,11 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        adt = new ListAdapter(repList, getApplicationContext());
-                        recyclerView.setAdapter(adt);
+                        updateRecycler();
                         if(dialog != null)
                             dialog.dismiss();
+
+                        getBills();
                     }
                 },
                 new Response.ErrorListener()
@@ -211,9 +227,81 @@ public class MainActivity extends AppCompatActivity {
         queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
             @Override
             public void onRequestFinished(Request<Object> request) {
-                //TODO: Update adapter here once list is fetched
             }
         });
+    }
+
+    private String buildBillsUrlFromBioguide(String bioguide)
+    {
+        String key = getResources().getString(R.string.KEY_SUNLIGHT);
+        return String.format(Locale.ENGLISH
+                , "http://congress.api.sunlightfoundation.com/bills?sponsor_id=%s&apikey=%s"
+                , bioguide
+                , key);
+    }
+
+    private void addRepBillsFromUrl(String url, final int index)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest GET = new JsonObjectRequest(Request.Method.GET
+                , url
+                , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ArrayList<Bill> billList = new ArrayList<>();
+                    int THRESHOLD_NUM = 10;
+                    int count = Integer.parseInt(response.getString("count"));
+                    JSONArray arr = response.getJSONArray("results");
+                    for(int i = 0; i < arr.length() && i < THRESHOLD_NUM; i++)
+                    {
+                        Bill bill = new Bill();
+                        JSONObject currObj = arr.getJSONObject(i);
+                        String introDate = currObj.getString("introduced_on");
+                        String title = currObj.getString("short_title");
+                        if (title == null)
+                            title = currObj.getString("official_title");
+
+                        if(title.equalsIgnoreCase("null"))
+                            THRESHOLD_NUM++;
+                        else
+                        {
+                            if(index == 0)
+                                Log.d(TAG, "Title: " + title);
+                            bill.setName(title);
+                            bill.setIntroDate(introDate);
+                            billList.add(bill);
+                        }
+                    }
+
+                    repList.get(index).setBills(billList);
+
+                }
+                catch (JSONException e)
+                {
+                    Log.d(TAG, "JSONException when retreiving bills: " + e.getMessage());
+                }
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error retreiving bills: " + error.getMessage());
+            }
+        });
+        queue.add(GET);
+    }
+
+    private void getBills()
+    {
+        for(int i = 0; i < repList.size(); i++)
+        {
+            if(repList.get(i).getBioId() != null)
+            {
+                String url = buildBillsUrlFromBioguide(repList.get(i).getBioId());
+                addRepBillsFromUrl(url, i);
+            }
+        }
     }
 
     private void generateDummyReps()
@@ -250,6 +338,12 @@ public class MainActivity extends AppCompatActivity {
         rep3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.rep_red));
 
         repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(rep1);
+    }
+
+    private void updateRecycler()
+    {
+        adt = new ListAdapter(repList, getApplicationContext());
+        recyclerView.setAdapter(adt);
     }
 
 }

@@ -3,6 +3,9 @@ package gusrsilva.represent;
 /**
  * Created by GusSilva on 2/28/16.
  */
+
+import java.util.ArrayList;
+
 /**
  * Created by GusSilva on 2/24/16.
  */
@@ -20,6 +23,7 @@ public class Rep {
     private int imageResource;
     private int wideImageResource;
     private int color;
+    private ArrayList<Bill> bills;
 
     public Rep()
     {
@@ -140,6 +144,15 @@ public class Rep {
         this.termEnd = termEnd;
     }
 
+
+    public ArrayList<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(ArrayList<Bill> bills) {
+        this.bills = bills;
+    }
+
     @Override
     public String toString() {
         return "Rep{" +
@@ -158,6 +171,7 @@ public class Rep {
                 ", color=" + color +
                 '}';
     }
+
 
 }
 

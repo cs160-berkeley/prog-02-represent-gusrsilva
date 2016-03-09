@@ -15,6 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -22,6 +28,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -96,7 +104,7 @@ public class CardAdapter extends GridPagerAdapter {
             setData(2, 100);
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
             ((TextView)view.findViewById(R.id.location)).setText(city);
-
+            get2012Info();
 
         }
         viewGroup.addView(view);
@@ -182,6 +190,28 @@ public class CardAdapter extends GridPagerAdapter {
         mChart.highlightValues(null);
 
         mChart.invalidate();
+    }
+
+    public void get2012Info()
+    {
+        String url = "https://raw.githubusercontent.com/cs160-sp16/voting-data/master/election-county-2012.json";
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url
+                ,new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "JSON response: " + response.toString().substring(0,100));
+                    }
+                }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error with 2012 info");
+            }
+        });
+        queue.add(getRequest);
     }
 }
 

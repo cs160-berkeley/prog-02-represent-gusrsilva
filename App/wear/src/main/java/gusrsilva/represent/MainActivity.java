@@ -27,6 +27,7 @@ import java.util.Random;
 public class MainActivity extends Activity implements GoogleApiClient.OnConnectionFailedListener
         , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
+
     private TextView mTextView;
     public static String TAG = "Represent!", zipCode = "00000";
     private static GoogleApiClient mWatchApiClient;

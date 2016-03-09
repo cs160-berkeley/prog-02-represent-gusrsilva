@@ -4,16 +4,34 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.internal.TwitterApi;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.models.TweetBuilder;
+import com.twitter.sdk.android.core.models.TweetEntities;
+import com.twitter.sdk.android.tweetui.Timeline;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+import com.twitter.sdk.android.tweetui.TweetUi;
+import com.twitter.sdk.android.tweetui.TweetUtils;
+import com.twitter.sdk.android.tweetui.TweetView;
+import com.twitter.sdk.android.tweetui.UserTimeline;
+import com.twitter.sdk.android.tweetui.internal.TimelineDelegate;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -52,7 +70,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return new ViewHolder(v);    }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Rep currentRep = repList.get(position);
 
         if(holder != null)
@@ -64,7 +82,23 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             holder.website.setText(currentRep.getWebsite());
             holder.moreInfo.setTag(position);
 
-            imageLoader.displayImage("drawable://" + currentRep.getImageResource(), holder.image, options);
+
+            // TODO: Base this Tweet ID on some data from elsewhere in your app
+            long tweetId = 631879971628183552L;
+            TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    TweetView tweetView = new TweetView(context, result.data);
+                    holder.tweetHolder.addView(tweetView);
+                }
+                @Override
+                public void failure(TwitterException exception) {
+                    Log.d("TwitterKit", "Load Tweet failure", exception);
+                }
+            });
+
+
+            imageLoader.displayImage(currentRep.getImageUri(), holder.image, options);
 
             holder.email.setTextColor(currentRep.getColor());
             holder.website.setTextColor(currentRep.getColor());
@@ -83,6 +117,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public TextView repType, name, party, email, website;
         public ImageView image;
         public Button moreInfo;
+        public FrameLayout tweetHolder;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -94,6 +129,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             website = (TextView) itemView.findViewById(R.id.website);
             image = (ImageView) itemView.findViewById(R.id.rep_image);
             moreInfo = (Button) itemView.findViewById(R.id.more_info);
+            tweetHolder = (FrameLayout)itemView.findViewById(R.id.tweet_holder);
         }
 
     }
