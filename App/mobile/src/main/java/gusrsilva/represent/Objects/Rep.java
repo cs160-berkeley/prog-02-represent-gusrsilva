@@ -1,10 +1,11 @@
-package gusrsilva.represent;
+package gusrsilva.represent.Objects;
 
 /**
  * Created by GusSilva on 2/28/16.
  */
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by GusSilva on 2/24/16.
@@ -24,6 +25,7 @@ public class Rep {
     private int wideImageResource;
     private int color;
     private ArrayList<Bill> bills;
+    private ArrayList<String> committees;
 
     public Rep()
     {
@@ -133,7 +135,15 @@ public class Rep {
     }
 
     public void setTermStart(String termStart) {
-        this.termStart = termStart;
+        if (termStart.isEmpty())
+            return;
+
+        String[] strings = termStart.split("-");
+        String year = strings[0];
+        String day = strings[1];
+        String month = getMonth(strings[2]);
+        this.termStart = String.format(Locale.ENGLISH
+                , "%s %s, %s", month, day, year);
     }
 
     public String getTermEnd() {
@@ -141,7 +151,15 @@ public class Rep {
     }
 
     public void setTermEnd(String termEnd) {
-        this.termEnd = termEnd;
+        if (termEnd.isEmpty())
+            return;
+
+        String[] strings = termEnd.split("-");
+        String year = strings[0];
+        String day = strings[1];
+        String month = getMonth(strings[2]);
+        this.termEnd = String.format(Locale.ENGLISH
+                , "%s %s, %s", month, day, year);
     }
 
 
@@ -151,6 +169,46 @@ public class Rep {
 
     public void setBills(ArrayList<Bill> bills) {
         this.bills = bills;
+    }
+
+    public ArrayList<String> getCommittees() {
+        return committees;
+    }
+
+    public void setCommittees(ArrayList<String> committees) {
+        this.committees = committees;
+    }
+
+    private String getMonth(String str)
+    {
+        int choice = Integer.parseInt(str);
+        switch (choice)
+        {
+            case 1:
+                return "Jan";
+            case 2:
+                return "Feb";
+            case 3:
+                return "Mar";
+            case 4:
+                return "Apr";
+            case 5:
+                return "May";
+            case 6:
+                return "Jun";
+            case 7:
+                return "Jul";
+            case 8:
+                return "Aug";
+            case 9:
+                return "Sep";
+            case 10:
+                return "Oct";
+            case 11:
+                return "Nov";
+            default:
+                return "Dec";
+        }
     }
 
     @Override

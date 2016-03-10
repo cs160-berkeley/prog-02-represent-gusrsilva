@@ -1,4 +1,4 @@
-package gusrsilva.represent;
+package gusrsilva.represent.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,18 +9,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import gusrsilva.represent.R;
+
 /**
  * Created by GusSilva on 3/9/16.
  */
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
+public class CommitteeAdapter extends RecyclerView.Adapter<CommitteeAdapter.ViewHolder> {
 
-    private ArrayList<Bill> bills;
+    private ArrayList<String> committees;
     private Context mContext;
     private int color;
 
-    public BillAdapter(ArrayList<Bill> billArrayList, Context c, int col)
+    public CommitteeAdapter(ArrayList<String> comList, Context c, int col)
     {
-        bills = billArrayList;
+        committees = comList;
         mContext = c;
         color = col;
     }
@@ -28,36 +30,37 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.bill_layout, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.committee_layout, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Bill bill = bills.get(position);
+        String committee = committees.get(position);
 
-        if(bill == null || holder == null)
+        if(committee == null || holder == null)
             return;
 
-        holder.billName.setText(bill.getName());
-        holder.billName.setTextColor(color);
-        holder.billDate.setText(bill.getIntroDate());
+        holder.committeeName.setText(committee);
+        holder.committeeName.setTextColor(color);
     }
 
     @Override
     public int getItemCount() {
-        return bills.size();
+        if(committees == null)
+            return 0;
+        else
+            return committees.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView billName, billDate;
+        public TextView committeeName;
 
         public ViewHolder(View itemView)
         {
             super(itemView);
-            billName = (TextView)itemView.findViewById(R.id.billTitle);
-            billDate = (TextView)itemView.findViewById(R.id.billDate);
+            committeeName = (TextView)itemView.findViewById(R.id.committeeName);
         }
 
     }

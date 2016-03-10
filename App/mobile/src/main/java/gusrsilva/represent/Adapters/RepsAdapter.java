@@ -1,9 +1,9 @@
-package gusrsilva.represent;
+package gusrsilva.represent.Adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,37 +16,30 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.internal.TwitterApi;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.TweetBuilder;
-import com.twitter.sdk.android.core.models.TweetEntities;
-import com.twitter.sdk.android.tweetui.Timeline;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
-import com.twitter.sdk.android.tweetui.TweetUi;
 import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.TweetView;
-import com.twitter.sdk.android.tweetui.UserTimeline;
-import com.twitter.sdk.android.tweetui.internal.TimelineDelegate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import gusrsilva.represent.R;
+import gusrsilva.represent.Objects.Rep;
 
 /**
  * Created by GusSilva on 2/24/16.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
 
     private ArrayList<Rep> repList = new ArrayList<>();
     private Context context;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
 
-    public ListAdapter(ArrayList<Rep> reps, Context c)
+    public RepsAdapter(ArrayList<Rep> reps, Context c)
     {
         //Constructor
         context = c;
@@ -82,7 +75,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             holder.website.setText(currentRep.getWebsite());
             holder.moreInfo.setTag(position);
 
-
             // TODO: Base this Tweet ID on some data from elsewhere in your app
             long tweetId = 631879971628183552L;
             TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
@@ -103,6 +95,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             holder.email.setTextColor(currentRep.getColor());
             holder.website.setTextColor(currentRep.getColor());
             holder.moreInfo.setTextColor(currentRep.getColor());
+
+            holder.website.setLinkTextColor(currentRep.getColor());
+            holder.email.setLinkTextColor(currentRep.getColor());
+            holder.website.setLinksClickable(true);
+            holder.email.setLinksClickable(true);
+
         }
 
     }

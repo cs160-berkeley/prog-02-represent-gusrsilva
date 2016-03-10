@@ -1,4 +1,4 @@
-package gusrsilva.represent;
+package gusrsilva.represent.Objects;
 
 /**
  * Created by GusSilva on 3/7/16.

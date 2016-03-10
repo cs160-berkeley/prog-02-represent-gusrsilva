@@ -1,22 +1,18 @@
 package gusrsilva.represent;
 
 import android.Manifest;
-import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,13 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +37,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import gusrsilva.represent.Adapters.RepsAdapter;
+import gusrsilva.represent.Objects.Bill;
+import gusrsilva.represent.Objects.Place;
+import gusrsilva.represent.Objects.Rep;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static String REP_NUM = "rep_num", ZIP_CODE = "zip_code";
     public static ArrayList<Rep> repList = new ArrayList<>();
     private ProgressDialog dialog;
-    private ListAdapter adt;
+    private RepsAdapter adt;
     private RecyclerView recyclerView;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "XI1YkrqjI0iKPWtHpxqvjoxY2";
@@ -211,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                             dialog.dismiss();
 
                         getBills();
+                        getCommittees();
                     }
                 },
                 new Response.ErrorListener()
@@ -266,8 +264,6 @@ public class MainActivity extends AppCompatActivity {
                             THRESHOLD_NUM++;
                         else
                         {
-                            if(index == 0)
-                                Log.d(TAG, "Title: " + title);
                             bill.setName(title);
                             bill.setIntroDate(introDate);
                             billList.add(bill);
@@ -300,6 +296,74 @@ public class MainActivity extends AppCompatActivity {
             {
                 String url = buildBillsUrlFromBioguide(repList.get(i).getBioId());
                 addRepBillsFromUrl(url, i);
+            }
+        }
+    }
+
+    private String buildCommitteesUrlFromBioguid(String bioguide)
+    {
+        String key = getResources().getString(R.string.KEY_SUNLIGHT);
+        return String.format(Locale.ENGLISH
+                ,"http://congress.api.sunlightfoundation.com/committees?member_ids=%s&apikey=%s"
+                , bioguide
+                , key);
+
+    }
+
+    private void addRepCommitteesFromUrl(String url, final int index)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest GET = new JsonObjectRequest(Request.Method.GET
+                , url
+                , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    ArrayList<String> committees = new ArrayList<>();
+                    int THRESHOLD_NUM = 10;
+                    int count = Integer.parseInt(response.getString("count"));
+                    JSONArray arr = response.getJSONArray("results");
+                    for(int i = 0; i < arr.length() && i < THRESHOLD_NUM; i++)
+                    {
+                        JSONObject currObj = arr.getJSONObject(i);
+                        String title = currObj.getString("name");
+
+                        if(title == null || title.equalsIgnoreCase("null"))
+                            THRESHOLD_NUM++;
+                        else
+                        {
+                            if(index == 0)
+                                Log.d(TAG, "Title: " + title);
+                            committees.add(title);
+                        }
+                    }
+
+                    repList.get(index).setCommittees(committees);
+
+                }
+                catch (JSONException e)
+                {
+                    Log.d(TAG, "JSONException when retreiving committees: " + e.getMessage());
+                }
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error retreiving committees: " + error.getMessage());
+            }
+        });
+        queue.add(GET);
+    }
+
+    private void getCommittees()
+    {
+        for(int i = 0; i < repList.size(); i++)
+        {
+            if(repList.get(i).getBioId() != null)
+            {
+                String url = buildCommitteesUrlFromBioguid(repList.get(i).getBioId());
+                addRepCommitteesFromUrl(url, i);
             }
         }
     }
@@ -342,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateRecycler()
     {
-        adt = new ListAdapter(repList, getApplicationContext());
+        adt = new RepsAdapter(repList, getApplicationContext());
         recyclerView.setAdapter(adt);
     }
 

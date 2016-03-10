@@ -1,8 +1,5 @@
 package gusrsilva.represent;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,9 +13,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import gusrsilva.represent.Adapters.BillAdapter;
+import gusrsilva.represent.Adapters.CommitteeAdapter;
+import gusrsilva.represent.Objects.Rep;
 
 public class ViewRepresentative extends AppCompatActivity {
 
@@ -58,8 +55,10 @@ public class ViewRepresentative extends AppCompatActivity {
 
         TextView partyType = (TextView)findViewById(R.id.party_type);
         TextView name = (TextView)findViewById(R.id.name);
-        partyType.setText(rep.getParty() + " " + rep.getRepType());
+        TextView currentTerm = (TextView)findViewById(R.id.currentTerm);
+        partyType.setText((rep.getParty().equalsIgnoreCase("Democrat")? rep.getParty() + "ic": rep.getParty()) + " " + rep.getRepType());
         name.setText(rep.getName());
+        currentTerm.setText(rep.getTermStart() + " to " + rep.getTermEnd());
 
         // Set up bills list
         RecyclerView billRecycler = (RecyclerView)findViewById(R.id.billsRecycler);
@@ -67,6 +66,13 @@ public class ViewRepresentative extends AppCompatActivity {
         BillAdapter billAdt = new BillAdapter(rep.getBills(), getApplicationContext(), rep.getColor());
         billRecycler.setAdapter(billAdt);
         billRecycler.setNestedScrollingEnabled(false);
+
+        // Set up Committee List
+        RecyclerView committeesRecyler = (RecyclerView)findViewById(R.id.committeesRecycler);
+        committeesRecyler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        CommitteeAdapter committeeAdapter = new CommitteeAdapter(rep.getCommittees(), getApplicationContext(), rep.getColor());
+        committeesRecyler.setAdapter(committeeAdapter);
+        committeesRecyler.setNestedScrollingEnabled(false);
 
 
 
