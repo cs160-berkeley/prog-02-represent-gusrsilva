@@ -106,6 +106,7 @@ public class ChooseLocationActivity extends AppCompatActivity
                     getLocation();
                 else
                     mApiClient.connect();
+
             }
         });
 

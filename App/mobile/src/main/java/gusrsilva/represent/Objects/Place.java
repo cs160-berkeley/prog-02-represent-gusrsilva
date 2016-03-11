@@ -1,10 +1,17 @@
 package gusrsilva.represent.Objects;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Locale;
+
 /**
  * Created by GusSilva on 3/7/16.
  */
 public class Place {
-    private String city, county, state, zip;
+    private String city, county, state, zip, TAG = "Represent!";
 
     public Place()
     {
@@ -49,5 +56,33 @@ public class Place {
             return city + ", " + state;
         else
             return null;
+    }
+
+    public JSONObject toJSONObject()
+    {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("city", this.city);
+            jsonObject.put("county", this.county);
+            jsonObject.put("state", this.state);
+            jsonObject.put("zip", this.zip);
+            return jsonObject;
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, "Error converting Place to JSONObject: " + e.getMessage());
+            return null;
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "city='" + city + '\'' +
+                ", county='" + county + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
     }
 }

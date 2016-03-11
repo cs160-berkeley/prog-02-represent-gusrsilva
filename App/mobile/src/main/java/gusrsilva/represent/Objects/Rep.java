@@ -4,6 +4,11 @@ package gusrsilva.represent.Objects;
  * Created by GusSilva on 2/28/16.
  */
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -21,23 +26,14 @@ public class Rep {
     private String bioId;
     private String twitterId;
     private String termStart, termEnd;
-    private int imageResource;
-    private int wideImageResource;
     private int color;
     private ArrayList<Bill> bills;
     private ArrayList<String> committees;
+    private String TAG = "Represent!";
 
     public Rep()
     {
         //Default Constructor
-    }
-
-    public int getWideImageResource() {
-        return wideImageResource;
-    }
-
-    public void setWideImageResource(int wideImageResource) {
-        this.wideImageResource = wideImageResource;
     }
 
     public String getRepType() {
@@ -94,14 +90,6 @@ public class Rep {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
-    }
-
-    public int getImageResource() {
-        return imageResource;
-    }
-
-    public void setImageResource(int imageResource) {
-        this.imageResource = imageResource;
     }
 
     public int getColor() {
@@ -211,6 +199,27 @@ public class Rep {
         }
     }
 
+    public JSONObject toJSONObject()
+    {
+        try
+        {
+            JSONObject object = new JSONObject();
+            object.put("repType", repType);
+            object.put("name", name);
+            object.put("party", party);
+            object.put("imageUri", imageUri);
+            object.put("bioId", bioId);
+
+            return object;
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, " Error creating Rep JSON");
+            return null;
+        }
+
+    }
+
     @Override
     public String toString() {
         return "Rep{" +
@@ -224,8 +233,6 @@ public class Rep {
                 ", twitterId='" + twitterId + '\'' +
                 ", termStart='" + termStart + '\'' +
                 ", termEnd='" + termEnd + '\'' +
-                ", imageResource=" + imageResource +
-                ", wideImageResource=" + wideImageResource +
                 ", color=" + color +
                 '}';
     }

@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.animation.Easing;
@@ -29,6 +30,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -101,10 +104,9 @@ public class CardAdapter extends GridPagerAdapter {
             mChart.getLegend().setEnabled(false);
             //mChart.setExtraOffsets(5, 10, 5, 5);
             mChart.setDrawHoleEnabled(false);
-            setData(2, 100);
+            get2012Info();
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
             ((TextView)view.findViewById(R.id.location)).setText(city);
-            get2012Info();
 
         }
         viewGroup.addView(view);
@@ -122,11 +124,9 @@ public class CardAdapter extends GridPagerAdapter {
         return view.equals(o);
     }
 
-    public void setData(int count, float range) {
+    public void setData(float obamaPercent, float romneyPercent) {
 
-        float mult = range;
-
-        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
 
         // IMPORTANT: In a PieChart, no values (Entry) should have the same
         // xIndex (even if from different DataSets), since no values can be
@@ -135,46 +135,27 @@ public class CardAdapter extends GridPagerAdapter {
         //TODO: Dynamically calculate results from API
 
 
-        Log.d(TAG, " setting PieChart Data. oldZip: " + oldZip + "   currZip: " + MainActivity.zipCode);
-        if (!oldZip.equalsIgnoreCase(MainActivity.zipCode))
-        {
-            Log.d(TAG, "Setting new location");
-            oldZip = MainActivity.zipCode;
-            Random rand = new Random(System.currentTimeMillis());
-            String oldCity = dummyCities[rand.nextInt(5)];
-            dummyY1 = rand.nextInt(30) + 30;
-            dummyY2 = 100 - dummyY1;
+        //Log.d(TAG, " setting PieChart Data. oldZip: " + oldZip + "   currZip: " + MainActivity.zipCode);
+        yVals.add(new Entry(obamaPercent, 0));
+        yVals.add(new Entry(romneyPercent, 1));
+        yVals.add(new Entry((100 - (obamaPercent + romneyPercent)), 2));
 
-            while(!city.equalsIgnoreCase(oldCity))
-            {
-                city = dummyCities[rand.nextInt(5)];
-                dummyY1 = rand.nextInt(30) + 30;
-                dummyY2 = 100 - dummyY1;
-            }
-
-            Log.d(TAG, "New values: " + dummyY1 + ", " + dummyY2);
-
-        }
-        else
-        {
-            Log.d(TAG, "Zip is the same!");
-        }
-        yVals1.add(new Entry((float) dummyY1, 0));
-        yVals1.add(new Entry((float) dummyY2, 1));
+        Log.d(TAG, "Added: " + obamaPercent + ", " + romneyPercent);
 
         ArrayList<String> xVals = new ArrayList<String>();
 
-        xVals.add("Romney"); xVals.add("Obama");
+        xVals.add("Obama"); xVals.add("Romney");xVals.add("Other");
 
-        PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
+        PieDataSet dataSet = new PieDataSet(yVals, "Election Results");
         dataSet.setSliceSpace(0f);
-        //dataSet.setSelectionShift(5f);
+        dataSet.setSelectionShift(5f);
 
         // add a lot of colors
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(ContextCompat.getColor(mContext, R.color.rep_red));
         colors.add(ContextCompat.getColor(mContext, R.color.dem_blue));
+        colors.add(ContextCompat.getColor(mContext, R.color.rep_red));
+        colors.add(Color.DKGRAY);
 
 
         dataSet.setColors(colors);
@@ -198,17 +179,42 @@ public class CardAdapter extends GridPagerAdapter {
         RequestQueue queue = Volley.newRequestQueue(mContext);
 
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url
-                ,new Response.Listener<JSONObject>() {
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url
+                ,new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, "JSON response: " + response.toString().substring(0,100));
+                    public void onResponse(JSONArray response) {
+                        //Log.d(TAG, "JSON response: " + response.toString().substring(0,100));
+
+                        try
+                        {
+                            String county = "Alameda";      //TODO: Get county that user is currently in
+                            for(int i = 0; i < response.length(); i++)
+                            {
+                                JSONObject currObj = response.getJSONObject(i);
+                                if(currObj.getString("county-name").equalsIgnoreCase(county))
+                                {
+                                    Log.d(TAG, "Found: " + county);
+                                    float obamaPercent = Float.parseFloat(currObj.getString("obama-percentage"));
+                                    float romneyPercent = Float.parseFloat(currObj.getString("romney-percentage"));
+                                    Log.d(TAG, "Calling setData with Obama: " + obamaPercent + " Romney: " + romneyPercent);
+                                    setData(obamaPercent, romneyPercent);
+                                    return;
+                                }
+                            }
+
+                            Log.d(TAG, county + " not found!");
+
+                        }
+                        catch (JSONException error)
+                        {
+                            Log.d(TAG, "2012 JSON Exception: " + error.getMessage());
+                        }
                     }
                 }
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error with 2012 info");
+                Log.d(TAG, "Error with 2012 info: " + error.getMessage());
             }
         });
         queue.add(getRequest);

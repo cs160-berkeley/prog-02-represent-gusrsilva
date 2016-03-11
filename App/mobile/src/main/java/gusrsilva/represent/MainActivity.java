@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,6 +27,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.wearable.Wearable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.twitter.sdk.android.Twitter;
@@ -43,7 +49,9 @@ import gusrsilva.represent.Objects.Place;
 import gusrsilva.represent.Objects.Rep;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks
+        , GoogleApiClient.OnConnectionFailedListener
+        , ActivityCompat.OnRequestPermissionsResultCallback {
 
     FloatingActionButton fab;
     private String TAG = "Represent!";
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog dialog;
     private RepsAdapter adt;
     private RecyclerView recyclerView;
+    private GoogleApiClient mApiClient;
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "XI1YkrqjI0iKPWtHpxqvjoxY2";
     private static final String TWITTER_SECRET = "JzCQURwTp98Zip9rN5hNIpM68HGzNMG1DFOLa0qztlHtoO0oLe";
@@ -70,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
         dialog = ProgressDialog.show(MainActivity.this, "",
                 "Loading Representatives. Please wait...", true);
@@ -368,46 +384,54 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void generateDummyReps()
-    {
-        // Generate Dummy Representatives
-        Rep rep1 = new Rep();
-        rep1.setRepType("Senator");
-        rep1.setName("Barbara Boxer");
-        rep1.setParty("Democrat");
-        rep1.setEmail("Sen.Boxer@opencongress.org");
-        rep1.setWebsite("www.boxer.senate.gov");
-        rep1.setImageResource(R.drawable.rep1);
-        rep1.setWideImageResource(R.drawable.rep1_wide);
-        rep1.setColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
-
-        Rep rep2 = new Rep();
-        rep2.setRepType("Senator");
-        rep2.setName("Dianne Feinstein");
-        rep2.setParty("Democrat");
-        rep2.setEmail("Sen.Feinstein@opencongress.org");
-        rep2.setWebsite("www.feinstein.senate.gov");
-        rep2.setImageResource(R.drawable.rep2);
-        rep2.setWideImageResource(R.drawable.rep2_wide);
-        rep2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
-
-        Rep rep3 = new Rep();
-        rep3.setRepType("Representative");
-        rep3.setName("Paul Cook");
-        rep3.setParty("Republican");
-        rep3.setEmail("Rep.Cook@opencongress.org");
-        rep3.setWebsite("www.Cook.representative.gov");
-        rep3.setImageResource(R.drawable.rep3);
-        rep3.setWideImageResource(R.drawable.rep3_wide);
-        rep3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.rep_red));
-
-        repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(rep1);
-    }
-
     private void updateRecycler()
     {
         adt = new RepsAdapter(repList, getApplicationContext());
         recyclerView.setAdapter(adt);
     }
 
+    private JSONObject generateJSONforWatch()
+    {
+        if(repList == null || repList.size() == 0)
+            return null;
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            for (Rep rep : repList) {
+                JSONObject temp = rep.toJSONObject();
+                if (temp != null)
+                    jsonArray.put(temp);
+            }
+            jsonObject.put("reps", jsonArray);
+            JSONObject temp = ChooseLocationActivity.currentPlace.toJSONObject();
+            if(temp != null)
+            {
+                jsonObject.put("place", temp);
+            }
+
+            Log.d(TAG, "Generated JSON: " + jsonObject.toString());
+            return jsonObject;
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, "Error creating JSON from reps: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
