@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
     private ArrayList<Rep> repList = new ArrayList<>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
 
 
 
-        adapter = new CardAdapter(repList, getApplicationContext());
+        adapter = new CardAdapter(repList, getApplicationContext(), currPlace);
         pager.setAdapter(adapter);
 
 

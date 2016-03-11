@@ -47,8 +47,8 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
         imageLoader = ImageLoader.getInstance(); // Get singleton instance
 
         options = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.rep3) // resource or drawable
-                .showImageOnFail(R.drawable.rep3) // TODO: Add a stock imaage
+                .showImageForEmptyUri(R.drawable.def)
+                .showImageOnFail(R.drawable.def)
                 .resetViewBeforeLoading(true)  // default
                 .cacheInMemory(true)
                 .displayer(new CircleBitmapDisplayer())

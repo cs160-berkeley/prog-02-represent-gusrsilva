@@ -1,11 +1,17 @@
 <android.support.wearable.view.BoxInsetLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/rep2"
     android:id="@+id/holder"
     android:layout_gravity="bottom"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:id="@+id/background"/>
 
     <android.support.wearable.view.CardScrollView
         android:id="@+id/card_scroll_view"

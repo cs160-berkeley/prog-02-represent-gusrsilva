@@ -30,7 +30,7 @@
                     android:id="@+id/rep_image"
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/rep1"
+                    android:src="@drawable/def"
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical" />
 

@@ -29,6 +29,10 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,28 +42,37 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.zip.Inflater;
 
-/**
+/** WEAR
  * Created by GusSilva on 2/29/16.
  */
 public class CardAdapter extends GridPagerAdapter {
 
     ArrayList<Rep> repList;
-    String[] dummyCities = {"Los Angeles,CA", "Upland, CA", "Quoahog, RI", "Boston, MA", "Berkeley, CA"};
     Context mContext;
     public PieChart mChart;
-    private String oldZip = "99999", city = dummyCities[0];
-    private int dummyY1 = 29, dummyY2 = 71;
     private String TAG = "Represent!";
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+    private Place place;
 
-    public CardAdapter(ArrayList<Rep> reps, Context context)
+    public CardAdapter(ArrayList<Rep> reps, Context context, Place p)
     {
         repList = reps;
         mContext = context;
+        place = p;
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+        imageLoader = ImageLoader.getInstance();
+        options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.def)
+                .showImageOnFail(R.drawable.def)
+                .cacheInMemory(true)
+                .build();
     }
 
     @Override
     public int getRowCount() {
-        //TODO: Dynamically calculate
         return 1;
     }
 
@@ -82,12 +95,13 @@ public class CardAdapter extends GridPagerAdapter {
             type = (TextView) view.findViewById(R.id.type);
             name = (TextView) view.findViewById(R.id.name);
             party = (TextView) view.findViewById(R.id.party);
+            ImageView bg = (ImageView)view.findViewById(R.id.background);
 
             type.setText(rep.getRepType());
             name.setText(rep.getName());
             party.setText(rep.getParty());
             party.setTextColor(rep.getColor());
-            //holder.setBackgroundResource(rep.getImageResource());
+            imageLoader.displayImage(rep.getImageUri(), bg, options);
             holder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,7 +112,13 @@ public class CardAdapter extends GridPagerAdapter {
         else
         {
             view = LayoutInflater.from(mContext).inflate(R.layout.pi_screen, null);
+            if(place != null)
+            {
+                TextView location = (TextView)view.findViewById(R.id.location);
+                location.setText(place.getCounty() + ", " + place.getState());
+            }
             mChart = (PieChart)view.findViewById(R.id.chart);
+            mChart.setNoDataText("2012 Voting Data Not Available");
             mChart.setUsePercentValues(true);
             mChart.setDescription("");
             mChart.getLegend().setEnabled(false);
@@ -106,7 +126,6 @@ public class CardAdapter extends GridPagerAdapter {
             mChart.setDrawHoleEnabled(false);
             get2012Info();
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-            ((TextView)view.findViewById(R.id.location)).setText(city);
 
         }
         viewGroup.addView(view);
@@ -132,15 +151,10 @@ public class CardAdapter extends GridPagerAdapter {
         // xIndex (even if from different DataSets), since no values can be
         // drawn above each other.
 
-        //TODO: Dynamically calculate results from API
-
-
         //Log.d(TAG, " setting PieChart Data. oldZip: " + oldZip + "   currZip: " + MainActivity.zipCode);
         yVals.add(new Entry(obamaPercent, 0));
         yVals.add(new Entry(romneyPercent, 1));
         yVals.add(new Entry((100 - (obamaPercent + romneyPercent)), 2));
-
-        //Log.d(TAG, "Added: " + obamaPercent + ", " + romneyPercent);
 
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -187,7 +201,13 @@ public class CardAdapter extends GridPagerAdapter {
 
                         try
                         {
-                            String county = "Alameda";      //TODO: Get county that user is currently in
+                            if(place == null || place.getCounty() == null || place.getCounty().equals("null"))
+                            {
+                                Log.d(TAG, "Get2012Info, county not available!");
+                                return;
+                            }
+
+                            String county = place.getCounty();
                             for(int i = 0; i < response.length(); i++)
                             {
                                 JSONObject currObj = response.getJSONObject(i);
