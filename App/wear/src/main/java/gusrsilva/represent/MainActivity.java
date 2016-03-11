@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
 
-    public static String TAG = "Represent!", jsonString, zip = "00000";
+    public static String TAG = "Represent!", jsonString;
     private static GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     private static int repNumber = -1;
@@ -162,8 +162,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
                             //Log.d("T", "found nodes");
                             //when we find a connected node, we populate the list declared above
                             //finally, we can send a message
-                            sendMessage(PATH_ZIP_CODE, jsonString);
-                            Log.d(TAG, "Sent Zip Code: " + jsonString);
+                            sendMessage(PATH_ZIP_CODE, "true");
                         }
                     });
             //restartActivity();
@@ -196,7 +195,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
     }
 
     @Override
-    public void onShake() { //TODO: Maybe use current time to make sure shakes are at least 1 second apart
+    public void onShake() {
 
         //Log.d(TAG, "onShake()");
 
@@ -206,10 +205,8 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         if(difference > SHAKE_TIME_THRESHOLD)
         {
             lastShake = thisShake;
-            zip = generateRandomZip();
             watchAction = ACTION_SEND_RANDOM_ZIP;
             Log.d(TAG, "thisShake: " + thisShake + "   lastShake: " + lastShake + "   diff: " + difference);
-            Log.d(TAG, "from onShake sending random zip: " + zip);
             adapter.notifyDataSetChanged();
             mWatchApiClient.disconnect();
             mWatchApiClient.connect();
@@ -219,11 +216,13 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
             intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
             startActivity(intent);
 
+            /*
             if(adapter.mChart != null) {
                 adapter.setData(2, 100);
                 adapter.mChart.invalidate();
                 adapter.mChart.notifyDataSetChanged();
             }
+            */
         }
 
     }
@@ -233,13 +232,6 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         //Log.d(TAG, "onLittleShake");
         //Toast.makeText(getApplicationContext(), "Little Shake!", Toast.LENGTH_SHORT).show();
 
-    }
-
-    private String generateRandomZip()
-    {
-        Random rand = new Random(System.currentTimeMillis());
-        int next = rand.nextInt(899999) + 10000;
-        return String.valueOf(next);
     }
 
     private void restartActivity()

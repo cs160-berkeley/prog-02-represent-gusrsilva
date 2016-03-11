@@ -46,6 +46,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import gusrsilva.represent.Adapters.RepsAdapter;
 import gusrsilva.represent.Objects.Bill;
@@ -80,11 +81,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
-        // set an exit transition
-        //getWindow().setExitTransition(new Explode()); // TODO: Enable
+        // TODO: Enable
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Place currentPlace = ChooseLocationActivity.currentPlace;
+        if(currentPlace == null) {
+            Toast.makeText(getApplicationContext(), "Error retrieving location", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        else if(currentPlace.getPrettyLocation() == null)
+            Toast.makeText(getApplicationContext(), "Current Zip: " + currentPlace.getZip(), Toast.LENGTH_SHORT).show();
+        else {
+            toolbar.setTitle(currentPlace.getPrettyLocation());
+            //Toast.makeText(getApplicationContext(), "Current Location: " + currentPlace.getPrettyLocation(), Toast.LENGTH_SHORT).show();
+        }
+
         setSupportActionBar(toolbar);
 
         mApiClient = new GoogleApiClient.Builder( this )
@@ -95,17 +109,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         dialog = ProgressDialog.show(MainActivity.this, "",
                 "Loading Representatives. Please wait...", true);
-
-        Place currentPlace = ChooseLocationActivity.currentPlace;
-        if(currentPlace == null) {
-            Toast.makeText(getApplicationContext(), "Error retrieving location", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-        else if(currentPlace.getPrettyLocation() == null)
-            Toast.makeText(getApplicationContext(), "Current Zip: " + currentPlace.getZip(), Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getApplicationContext(), "Current Location: " + currentPlace.getPrettyLocation(), Toast.LENGTH_SHORT).show();
 
         recyclerView = (RecyclerView)findViewById(R.id.recylcerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -197,6 +200,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         // display response
                         try
                         {
+                            if(response.getInt("count") == 0)
+                            {
+                                Toast.makeText(getApplicationContext(), "No results for that area.", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
                             JSONArray results = response.getJSONArray("results");
                             repList = new ArrayList<>();
                             for(int i=0; i<results.length(); i++)
@@ -434,6 +443,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     {
         mApiClient.disconnect(); mApiClient.connect();
     }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

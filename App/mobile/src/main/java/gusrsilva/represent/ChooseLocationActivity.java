@@ -39,6 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +65,7 @@ public class ChooseLocationActivity extends AppCompatActivity
     private String REVERSE_GEO_REQUEST = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
     private final String COUNTY = "administrative_area_level_2", STATE = "administrative_area_level_1", CITY = "locality", ZIP = "postal_code";
     public static Place currentPlace = null;
+    private Button bContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class ChooseLocationActivity extends AppCompatActivity
         final EditText zipCode = (EditText)findViewById(R.id.zipCode);
         zipCode.clearFocus();
         Button bUseCurrentLocation = (Button) findViewById(R.id.currentLocationButton);
-        Button bContinue = (Button) findViewById(R.id.continueButton);
+        bContinue = (Button) findViewById(R.id.continueButton);
         bContinue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +91,7 @@ public class ChooseLocationActivity extends AppCompatActivity
 
         if(getIntent() != null && getIntent().getStringExtra(MainActivity.ZIP_CODE) != null)
         {
-            String zip = getIntent().getStringExtra(MainActivity.ZIP_CODE);
+            String zip = generateRandomZip();
             zipCode.setText(zip);
             bContinue.callOnClick();
         }
@@ -230,7 +232,6 @@ public class ChooseLocationActivity extends AppCompatActivity
                         // display response
                         try
                         {
-
                             JSONArray arr = response.getJSONArray("results").getJSONObject(0).getJSONArray("address_components");
                             currentPlace = new Place();
                             for(int i = 0; i < arr.length(); i++) {
@@ -257,7 +258,6 @@ public class ChooseLocationActivity extends AppCompatActivity
                                         break;
                                 }
                             }
-
                         }
                         catch (JSONException e)
                         {
@@ -283,6 +283,15 @@ public class ChooseLocationActivity extends AppCompatActivity
                 continueToMainActivity();
             }
         });
+    }
+
+    private String generateRandomZip()
+    {
+        String[] randomZip = {"90002", "90003", "94207","72202","85054","29020"
+        , "33123", "03127", "97213", "02840", "74148", "59004", "92021" };
+        Random rand = new Random(System.currentTimeMillis());
+        int next = rand.nextInt(randomZip.length) % randomZip.length;
+        return randomZip[next];
     }
 }
 

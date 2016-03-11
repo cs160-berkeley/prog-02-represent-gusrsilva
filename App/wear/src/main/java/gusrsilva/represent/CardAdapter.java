@@ -73,6 +73,7 @@ public class CardAdapter extends GridPagerAdapter {
                 .showImageOnFail(R.drawable.def)
                 .cacheInMemory(true)
                 .build();
+        get2012Info();
     }
 
     @Override
@@ -119,7 +120,7 @@ public class CardAdapter extends GridPagerAdapter {
             if(place != null)
             {
                 TextView location = (TextView)view.findViewById(R.id.location);
-                if(!place.getCounty().equalsIgnoreCase("null") && !place.getState().equalsIgnoreCase("null"))
+                if(place.getCounty() != null && place.getState() != null)
                     location.setText(place.getCounty() + ", " + place.getState());
             }
 
@@ -198,7 +199,7 @@ public class CardAdapter extends GridPagerAdapter {
     public void get2012Info()
     {
 
-        if(romneyPercent != -1 || obamaPercent != -1)
+        if(romneyPercent != -1 || obamaPercent != -1 && mChart != null)
         {
             setData(obamaPercent, romneyPercent);
             return;
@@ -231,7 +232,8 @@ public class CardAdapter extends GridPagerAdapter {
                                     obamaPercent = Float.parseFloat(currObj.getString("obama-percentage"));
                                     romneyPercent = Float.parseFloat(currObj.getString("romney-percentage"));
                                     //Log.d(TAG, "Calling setData with Obama: " + obamaPercent + " Romney: " + romneyPercent);
-                                    setData(obamaPercent, romneyPercent);
+                                    if(mChart != null)
+                                        setData(obamaPercent, romneyPercent);
                                     return;
                                 }
                             }
