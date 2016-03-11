@@ -1,8 +1,7 @@
-<android.support.wearable.view.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/holder"
-    android:layout_gravity="bottom"
+    app:layout_box="bottom"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -13,15 +12,10 @@
         android:scaleType="centerCrop"
         android:id="@+id/background"/>
 
-    <android.support.wearable.view.CardScrollView
-        android:id="@+id/card_scroll_view"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent">
-
         <android.support.wearable.view.CardFrame
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:layout_box="bottom"
             android:id="@+id/cardFrame"
             android:layout_width="fill_parent">
 
@@ -63,5 +57,4 @@
                     android:textAlignment="center" />
             </LinearLayout>
         </android.support.wearable.view.CardFrame>
-    </android.support.wearable.view.CardScrollView>
 </android.support.wearable.view.BoxInsetLayout>

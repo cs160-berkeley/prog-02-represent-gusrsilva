@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Historic Routes Preservation Act "
-        android:id="@+id/committeeName" />
+        android:id="@+id/committeeName"
+        android:fontFamily="sans-serif-condensed" />
 
 </LinearLayout>

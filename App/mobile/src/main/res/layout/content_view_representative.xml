@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:text="Democratic Senator"
                 android:id="@+id/party_type"
-                android:textColor="@color/textWhiteSecondary" />
+                android:textColor="@color/textWhiteSecondary"
+                android:fontFamily="sans-serif-condensed" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,14 +37,15 @@
                 android:id="@+id/name"
                 android:textColor="@color/textWhitePrimary"
                 android:textSize="36sp"
-                android:fontFamily="sans-serif-light" />
+                android:fontFamily="sans-serif-condensed-light" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Serving until April, 2017"
                 android:id="@+id/currentTerm"
-                android:textColor="@color/textWhiteSecondary" />
+                android:textColor="@color/textWhiteSecondary"
+                android:fontFamily="sans-serif-condensed" />
 
         </LinearLayout>
 
@@ -80,7 +82,7 @@
                     android:layout_margin="@dimen/text_margin"
                     android:text="Current Committees"
                     android:textSize="24sp"
-                    android:fontFamily="sans-serif-light" />
+                    android:fontFamily="sans-serif-condensed-light" />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -119,7 +121,7 @@
                     android:layout_margin="@dimen/text_margin"
                     android:text="Recent Bills"
                     android:textSize="24sp"
-                    android:fontFamily="sans-serif-light" />
+                    android:fontFamily="sans-serif-condensed-light" />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"

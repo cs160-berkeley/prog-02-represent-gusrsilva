@@ -43,14 +43,14 @@
                         android:layout_height="wrap_content"
                         android:text="Senator"
                         android:id="@+id/rep_type"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="sans-serif-condensed-thin"
                         android:textSize="14sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Barbara Boxer"
                         android:id="@+id/name"
-                        android:fontFamily="sans-serif-light"
+                        android:fontFamily="sans-serif-condensed-light"
                         android:textSize="30sp"
                         android:textColor="#000000" />
                     <TextView
@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:text="Democrat"
                         android:id="@+id/party"
-                        android:fontFamily="sans-serif-light"
+                        android:fontFamily="sans-serif-condensed"
                         android:textSize="14sp"
                         android:textColor="#bb000000" />
                     <TextView
@@ -67,7 +67,7 @@
                         android:text="Sen.Boxer@opencongress.org"
                         android:autoLink="email"
                         android:id="@+id/email"
-                        android:fontFamily="sans-serif-light"
+                        android:fontFamily="sans-serif-condensed-bold"
                         android:textSize="14sp"
                         android:textColor="@color/dem_blue"
                         android:layout_marginTop="3dp"
@@ -78,7 +78,7 @@
                         android:autoLink="web"
                         android:text="https://www.boxer.senate.gov"
                         android:id="@+id/website"
-                        android:fontFamily="sans-serif-light"
+                        android:fontFamily="sans-serif-condensed-bold"
                         android:textSize="14sp"
                         android:textColor="@color/dem_blue"
                         android:layout_marginTop="3dp"
