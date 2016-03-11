@@ -1,20 +1,38 @@
-# PROG 02: Represent!
+# Represent!
 
-Briefly describe your app here.
+An app for people in the US to see the representatives for their area, or any area in the US. The app shows the representatives info along with one of their recent tweets, and offers more info such as committees they are on or bills they have sponsored. There is also an Android Wear companion app that displays the representatives name, party, and type, as well as shows the 2012 election results for the current area. In addition, when the watch is shook, a random location is chosen and the phone and watch are updated to reflect the information of the representatives from the random location that is chosen.
 
 ## Authors
 
-FirstName LastName ([your_email@berkeley.edu](mailto:your_email@berkeley.edu))
+Gus Silva ([gus7silva@berkeley.edu](mailto:gus7silva@berkeley.edu))
 
 ## Demo Video
 
-See [your demo video title here] (https://link_to_your_video)
+See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
 
 ## Screenshots
 
-<img src="screenshots/main.png" height="400" alt="Screenshot"/>
+
+  <p align="center">
+    <img src="screenshots/screen1.png" height="600" alt="Screenshot"/>
+    <br>
+    Upon opening the app, the user is asked to enter their location, or use the GPS to find their current location.<br>
+  </p> <br><br><br>
+  
+  <p align="center">
+    <img src="screenshots/screen2.png" height="600" alt="Screenshot"/>
+    <br>
+    The user is then shown the type, name, party, email, website, photo, and latest tweet of each representative for that area.<br>
+  </p><br><br><br>
+  
+  <p align="center">
+    <img src="screenshots/screen3.png" height="600" alt="Screenshot"/>
+    <br>
+    Once the user presses 'MORE INFO', they are taken to this screen, which shows the dates serving, recent committees, and recently sponsored bills of the seleted representative. <br>
+  </p><br><br><br>
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Any other support
+* nostr13:  UniversalImageLoader
+* Google: Volley
+* mcxiaoke: Volley mirror for easy gradle import
