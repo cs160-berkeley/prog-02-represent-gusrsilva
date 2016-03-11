@@ -1,25 +1,53 @@
 package gusrsilva.represent;
 
-/**
+/** WEAR
  * Created by GusSilva on 2/28/16.
  */
-/**
- * Created by GusSilva on 2/24/16.
- */
+
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Rep {
 
     private String repType;
     private String name;
     private String party;
-    private String email;
-    private String website;
     private String imageUri;
-    private int imageResource;
+    private String TAG = "Represent!";
     private int color;
+    private Context mContext;
 
-    public Rep()
+    public Rep(JSONObject jsonObject, Context c)
     {
-        //Default Constructor
+        mContext = c;
+        try
+        {
+            setName(jsonObject.getString("name"));
+            setRepType(jsonObject.getString("repType"));
+            setParty(jsonObject.getString("party"));
+            setImageUri(jsonObject.getString("imageUri"));
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, "Error creating Rep from JSON: " + e.getMessage());
+        }
+    }
+
+    public Rep(String name)
+    {
+        setName(name);
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public String getRepType() {
@@ -44,38 +72,11 @@ public class Rep {
 
     public void setParty(String party) {
         this.party = party;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getImageUri() {
-        return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
-    }
-
-    public int getImageResource() {
-        return imageResource;
-    }
-
-    public void setImageResource(int imageResource) {
-        this.imageResource = imageResource;
+        if(party.equalsIgnoreCase("republican"))
+            setColor(ContextCompat.getColor(mContext, R.color.rep_red));
+        else
+            setColor(ContextCompat.getColor(mContext, R.color.dem_blue));
     }
 
     public int getColor() {

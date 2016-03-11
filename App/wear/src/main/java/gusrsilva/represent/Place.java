@@ -1,14 +1,29 @@
 package gusrsilva.represent;
 
-/**
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/** WEAR
  * Created by GusSilva on 3/7/16.
  */
-public class Location {
-    private String city, county, state, zip;
+public class Place {
+    private String city, county, state, zip, TAG = "Represent!";
 
-    public Location()
+    public Place(JSONObject jsonObject)
     {
-        // Empty constructor
+        try
+        {
+            setCity(jsonObject.getString("city"));
+            setCounty(jsonObject.getString("county"));
+            setState(jsonObject.getString("state"));
+            setZip(jsonObject.getString("zip"));
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, "Error creating Place from JSON: " + e.getMessage());
+        }
     }
 
     public String getCity() {

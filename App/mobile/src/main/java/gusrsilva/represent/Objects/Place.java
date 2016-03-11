@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-/**
+/** MOBILE
  * Created by GusSilva on 3/7/16.
  */
 public class Place {

@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Represent!" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Represent" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -40,74 +40,20 @@
       <file leaf-file-name="CardAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/CardAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="157" column="33" selection-start-line="157" selection-start-column="33" selection-end-line="157" selection-end-column="33" />
+            <state vertical-scroll-proportion="-11.407408">
+              <caret line="165" column="34" selection-start-line="165" selection-start-column="34" selection-end-line="165" selection-end-column="34" />
               <folding>
                 <element signature="docComment;class#CardAdapter#0" expanded="false" />
                 <element signature="method#CardAdapter#0;class#CardAdapter#0" expanded="false" />
                 <element signature="method#getRowCount#0;class#CardAdapter#0" expanded="false" />
                 <element signature="method#destroyItem#0;class#CardAdapter#0" expanded="false" />
-                <element signature="e#4227#4234#0" expanded="true" />
-                <element signature="e#4877#4885#0" expanded="true" />
-                <element signature="e#5187#5196#0" expanded="true" />
-                <element signature="e#6127#7750#0" expanded="true" />
-                <element signature="e#7749#7750#0" expanded="true" />
-                <element signature="e#7769#7981#0" expanded="true" />
-                <element signature="e#7980#7981#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChooseLocationActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.234375">
-              <caret line="58" column="21" selection-start-line="58" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-              <folding>
-                <element signature="docComment;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="docComment;field#mApiClient#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="e#3761#4151#0" expanded="true" />
-                <element signature="e#3865#3907#0" expanded="false" />
-                <element signature="e#4150#4151#0" expanded="true" />
-                <element signature="e#5272#5300#0" expanded="false" />
-                <element signature="method#sendMessage#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="method#requestPermission#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="method#buildUrlFromLatLng#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="method#buildUrlFromZip#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="method#isValidPostalCode#0;class#ChooseLocationActivity#0" expanded="false" />
-                <element signature="method#createLocationFromUrl#0;class#ChooseLocationActivity#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.444445">
-              <caret line="87" column="25" selection-start-line="87" selection-start-column="25" selection-end-line="87" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3087#3112#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#5481#5539#0" expanded="false" />
-                <element signature="method#moreInfoPressed#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#buildUrlFromZip#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#6361#6408#0" expanded="true" />
-                <element signature="method#createRepListFromUrl#0;class#MainActivity#0" expanded="false" />
-                <element signature="class#10427:10590" expanded="false" />
-                <element signature="method#onRequestFinished#0;class#10427:10590" expanded="false" />
-                <element signature="method#buildBillsUrlFromBioguide#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#10689#10736#0" expanded="true" />
-                <element signature="method#addRepBillsFromUrl#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#getBills#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#buildCommitteesUrlFromBioguid#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#13364#13411#0" expanded="true" />
-                <element signature="method#addRepCommitteesFromUrl#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#getCommittees#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#updateRecycler#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#4229#4236#0" expanded="true" />
+                <element signature="e#4881#4889#0" expanded="true" />
+                <element signature="e#5191#5200#0" expanded="true" />
+                <element signature="e#6130#7757#0" expanded="true" />
+                <element signature="e#7756#7757#0" expanded="true" />
+                <element signature="e#7776#7988#0" expanded="true" />
+                <element signature="e#7987#7988#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,17 +63,47 @@
         <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/WatchListenerService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Place.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Place.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6003976">
+              <caret line="77" column="60" selection-start-line="77" selection-start-column="60" selection-end-line="77" selection-end-column="60" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Rep.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Rep.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="20" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
+              <caret line="78" column="73" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#962#963#0" expanded="true" />
+                <element signature="e#991#992#0" expanded="true" />
+                <element signature="e#1798#1799#0" expanded="true" />
+                <element signature="e#1826#1827#0" expanded="true" />
+                <element signature="e#1865#1866#0" expanded="true" />
+                <element signature="e#1899#1900#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Place.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Place.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -3035,7 +3011,6 @@
         <option value="$PROJECT_DIR$/mobile/build.gradle" />
         <option value="$PROJECT_DIR$/wear/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/MainActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/MyTwitterApiClient.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ListAdapter.java" />
         <option value="$PROJECT_DIR$/wear/build.gradle" />
@@ -3055,9 +3030,13 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Adapters/RepsAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Rep.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java" />
-        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/CardAdapter.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Place.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/MainActivity.java" />
+        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/WatchListenerService.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Place.java" />
+        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Place.java" />
+        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Rep.java" />
+        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/CardAdapter.java" />
+        <option value="$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -3209,11 +3188,11 @@
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="device.picker.selection" value="Android_Wear_Round_API_23" />
+    <property name="device.picker.selection" value="d2de282f" />
     <property name="android.project.structure.last.selected" value="mobile" />
     <property name="android.project.structure.proportion" value="0.15" />
   </component>
-  <component name="RunManager" selected="Android Application.wear">
+  <component name="RunManager" selected="Android Application.mobile">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -3535,7 +3514,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="912" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3544,7 +3523,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Fabric" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914573" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33291456" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33291456" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -3586,7 +3565,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java</url>
+          <line>117</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -3633,13 +3620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.30392158">
           <caret line="122" column="25" selection-start-line="122" selection-start-column="25" selection-end-line="122" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Location.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29411766">
-          <caret line="10" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3852,16 +3832,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Bill.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.029821074">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="35" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.mcxiaoke.volley/library/1.0.19/2bac9e638b022ca09262960f83e8c9da93d80468/library-1.0.19-sources.jar!/com/android/volley/toolbox/JsonObjectRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33200794">
@@ -3881,40 +3851,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29296875">
-          <caret line="59" column="29" selection-start-line="59" selection-start-column="29" selection-end-line="59" selection-end-column="29" />
+        <state vertical-scroll-proportion="-5.851852">
+          <caret line="243" column="47" selection-start-line="243" selection-start-column="42" selection-end-line="243" selection-end-column="47" />
+          <folding>
+            <element signature="docComment;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="docComment;field#mApiClient#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#buildUrlFromCurrentLocation#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#onConnectionSuspended#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#requestPermission#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#buildUrlFromLatLng#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#buildUrlFromZip#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="method#isValidPostalCode#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="e#10027#10266#0" expanded="true" />
+            <element signature="e#10265#10266#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Bill.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4473161">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="35" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Place.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26838967">
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/CardAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="157" column="33" selection-start-line="157" selection-start-column="33" selection-end-line="157" selection-end-column="33" />
-          <folding>
-            <element signature="docComment;class#CardAdapter#0" expanded="false" />
-            <element signature="method#CardAdapter#0;class#CardAdapter#0" expanded="false" />
-            <element signature="method#getRowCount#0;class#CardAdapter#0" expanded="false" />
-            <element signature="method#destroyItem#0;class#CardAdapter#0" expanded="false" />
-            <element signature="e#4227#4234#0" expanded="true" />
-            <element signature="e#4877#4885#0" expanded="true" />
-            <element signature="e#5187#5196#0" expanded="true" />
-            <element signature="e#6127#7750#0" expanded="true" />
-            <element signature="e#7749#7750#0" expanded="true" />
-            <element signature="e#7769#7981#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Rep.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.546875">
-          <caret line="214" column="31" selection-start-line="214" selection-start-column="31" selection-end-line="214" selection-end-column="31" />
+        <state vertical-scroll-proportion="4.145129">
+          <caret line="213" column="9" selection-start-line="213" selection-start-column="9" selection-end-line="213" selection-end-column="9" />
           <folding>
             <element signature="docComment;class#Rep#0" expanded="false" />
             <element signature="method#setRepType#0;class#Rep#0" expanded="false" />
@@ -3923,12 +3902,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/Objects/Place.java">
+    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Rep.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="20" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
+          <caret line="78" column="73" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#962#963#0" expanded="true" />
+            <element signature="e#991#992#0" expanded="true" />
+            <element signature="e#1798#1799#0" expanded="true" />
+            <element signature="e#1826#1827#0" expanded="true" />
+            <element signature="e#1865#1866#0" expanded="true" />
+            <element signature="e#1899#1900#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/Place.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/CardAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.407408">
+          <caret line="165" column="34" selection-start-line="165" selection-start-column="34" selection-end-line="165" selection-end-column="34" />
+          <folding>
+            <element signature="docComment;class#CardAdapter#0" expanded="false" />
+            <element signature="method#CardAdapter#0;class#CardAdapter#0" expanded="false" />
+            <element signature="method#getRowCount#0;class#CardAdapter#0" expanded="false" />
+            <element signature="method#destroyItem#0;class#CardAdapter#0" expanded="false" />
+            <element signature="e#4229#4236#0" expanded="true" />
+            <element signature="e#4881#4889#0" expanded="true" />
+            <element signature="e#5191#5200#0" expanded="true" />
+            <element signature="e#6130#7757#0" expanded="true" />
+            <element signature="e#7756#7757#0" expanded="true" />
+            <element signature="e#7776#7988#0" expanded="true" />
+            <element signature="e#7987#7988#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3936,57 +3951,39 @@
     <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/WatchListenerService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <caret line="21" column="9" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.444445">
-          <caret line="87" column="25" selection-start-line="87" selection-start-column="25" selection-end-line="87" selection-end-column="25" />
+        <state vertical-scroll-proportion="9.393639">
+          <caret line="447" column="49" selection-start-line="447" selection-start-column="49" selection-end-line="447" selection-end-column="49" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3087#3112#0" expanded="false" />
+            <element signature="e#3375#3400#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#5481#5539#0" expanded="false" />
-            <element signature="method#moreInfoPressed#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#5927#5985#0" expanded="false" />
             <element signature="method#buildUrlFromZip#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#6361#6408#0" expanded="true" />
-            <element signature="method#createRepListFromUrl#0;class#MainActivity#0" expanded="false" />
-            <element signature="class#10427:10590" expanded="false" />
-            <element signature="method#onRequestFinished#0;class#10427:10590" expanded="false" />
+            <element signature="class#10679:10842" expanded="false" />
+            <element signature="method#onRequestFinished#0;class#10679:10842" expanded="false" />
             <element signature="method#buildBillsUrlFromBioguide#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#10689#10736#0" expanded="true" />
-            <element signature="method#addRepBillsFromUrl#0;class#MainActivity#0" expanded="false" />
             <element signature="method#getBills#0;class#MainActivity#0" expanded="false" />
             <element signature="method#buildCommitteesUrlFromBioguid#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#13364#13411#0" expanded="true" />
-            <element signature="method#addRepCommitteesFromUrl#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#getCommittees#0;class#MainActivity#0" expanded="false" />
             <element signature="method#updateRecycler#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onConnectionSuspended#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/gusrsilva/represent/ChooseLocationActivity.java">
+    <entry file="file://$PROJECT_DIR$/wear/src/main/java/gusrsilva/represent/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.234375">
-          <caret line="58" column="21" selection-start-line="58" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6003976">
+          <caret line="77" column="60" selection-start-line="77" selection-start-column="60" selection-end-line="77" selection-end-column="60" />
           <folding>
-            <element signature="docComment;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="docComment;field#mApiClient#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="e#3761#4151#0" expanded="true" />
-            <element signature="e#3865#3907#0" expanded="false" />
-            <element signature="e#4150#4151#0" expanded="true" />
-            <element signature="e#5272#5300#0" expanded="false" />
-            <element signature="method#sendMessage#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="method#requestPermission#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="method#buildUrlFromLatLng#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="method#buildUrlFromZip#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="method#isValidPostalCode#0;class#ChooseLocationActivity#0" expanded="false" />
-            <element signature="method#createLocationFromUrl#0;class#ChooseLocationActivity#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

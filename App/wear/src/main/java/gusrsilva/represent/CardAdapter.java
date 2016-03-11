@@ -87,7 +87,7 @@ public class CardAdapter extends GridPagerAdapter {
             name.setText(rep.getName());
             party.setText(rep.getParty());
             party.setTextColor(rep.getColor());
-            holder.setBackgroundResource(rep.getImageResource());
+            //holder.setBackgroundResource(rep.getImageResource());
             holder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,7 +140,7 @@ public class CardAdapter extends GridPagerAdapter {
         yVals.add(new Entry(romneyPercent, 1));
         yVals.add(new Entry((100 - (obamaPercent + romneyPercent)), 2));
 
-        Log.d(TAG, "Added: " + obamaPercent + ", " + romneyPercent);
+        //Log.d(TAG, "Added: " + obamaPercent + ", " + romneyPercent);
 
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -163,7 +163,7 @@ public class CardAdapter extends GridPagerAdapter {
 
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(10f);
+        data.setValueTextSize(8f);
         data.setValueTextColor(Color.WHITE);
         mChart.setData(data);
 
@@ -193,10 +193,10 @@ public class CardAdapter extends GridPagerAdapter {
                                 JSONObject currObj = response.getJSONObject(i);
                                 if(currObj.getString("county-name").equalsIgnoreCase(county))
                                 {
-                                    Log.d(TAG, "Found: " + county);
+                                    //Log.d(TAG, "Found: " + county);
                                     float obamaPercent = Float.parseFloat(currObj.getString("obama-percentage"));
                                     float romneyPercent = Float.parseFloat(currObj.getString("romney-percentage"));
-                                    Log.d(TAG, "Calling setData with Obama: " + obamaPercent + " Romney: " + romneyPercent);
+                                    //Log.d(TAG, "Calling setData with Obama: " + obamaPercent + " Romney: " + romneyPercent);
                                     setData(obamaPercent, romneyPercent);
                                     return;
                                 }

@@ -10,7 +10,6 @@ import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.GridViewPager;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -20,6 +19,10 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,18 +31,20 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
 
-    private TextView mTextView;
-    public static String TAG = "Represent!", zipCode = "00000";
+    public static String TAG = "Represent!", jsonString = "00000";
     private static GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     private static int repNumber = -1;
     private ShakeEventListener shaker;
     private CardAdapter adapter;
-    public static String KEY_ZIP_CODE = "zip_code";
+    public static String KEY_JSON = "json_info";
     private final String PATH_REP_NUM = "/rep_num", PATH_ZIP_CODE = "/zip_code";
     private static final int ACTION_SEND_REP_NUM = 0, ACTION_SEND_RANDOM_ZIP = 1;
     private static int watchAction = -1;
     private long lastShake = System.currentTimeMillis(), SHAKE_TIME_THRESHOLD = 5000;
+    private Place currPlace = null;
+    private ArrayList<Rep> repList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,33 +61,33 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
             d.show();
         }
 
-        ArrayList<Rep> repList = new ArrayList<>();
-        Rep rep1 = new Rep();
-        rep1.setRepType("Senator");
-        rep1.setName("Barbara Boxer");
-        rep1.setParty("Democrat");
-        rep1.setEmail("Sen.Boxer@opencongress.org");
-        rep1.setWebsite("www.boxer.senate.gov");
-        rep1.setImageResource(R.drawable.rep1);
-        rep1.setColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
+        jsonString = getIntent().getStringExtra(KEY_JSON);
+        try
+        {
+            if(jsonString == null || jsonString.isEmpty())
+                throw new JSONException("The Json String is empty!");
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONArray reps = jsonObject.getJSONArray("reps");
+            for(int i = 0; i < reps.length(); i++)
+            {
+                JSONObject jsonRep = reps.getJSONObject(i);
+                if(jsonRep != null)
+                    repList.add(new Rep(jsonRep, getApplicationContext()));
+            }
+            repList.add(new Rep("dummy")); // Add extra to make room for 2012 Vote View
+            JSONObject jsonPlace = jsonObject.getJSONObject("place");
+            if(jsonPlace != null)
+                currPlace = new Place(jsonPlace);
+        }
+        catch (JSONException e)
+        {
+            Log.d(TAG, "wear/MainActivity, JSONException: " + e.getMessage());
+            finish();
+            return;
+        }
 
-        Rep rep2 = new Rep();
-        rep2.setRepType("Senator");
-        rep2.setName("Dianne Feinstein");
-        rep2.setParty("Democrat");
-        rep2.setImageResource(R.drawable.rep2);
-        rep2.setColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
 
-        Rep rep3 = new Rep();
-        rep3.setRepType("Representative");
-        rep3.setName("Paul Cook");
-        rep3.setParty("Republican");
-        rep3.setImageResource(R.drawable.rep3);
-        rep3.setColor(ContextCompat.getColor(getApplicationContext(), R.color.rep_red));
 
-        Rep dummy = new Rep(); dummy.setName("dummy"); //Dummy to make room for 2012 election view
-
-        repList.add(rep1);repList.add(rep2);repList.add(rep3);repList.add(dummy);
         adapter = new CardAdapter(repList, getApplicationContext());
         pager.setAdapter(adapter);
 
@@ -97,9 +102,6 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         }
 
         shaker = new ShakeEventListener(this);
-        zipCode = getIntent().getStringExtra(KEY_ZIP_CODE);
-        if(zipCode == null)
-            zipCode = "00000";
     }
 
     @Override
@@ -159,8 +161,8 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
                             //Log.d("T", "found nodes");
                             //when we find a connected node, we populate the list declared above
                             //finally, we can send a message
-                            sendMessage(PATH_ZIP_CODE,  zipCode);
-                            Log.d(TAG, "Sent Zip Code: " + zipCode);
+                            sendMessage(PATH_ZIP_CODE, jsonString);
+                            Log.d(TAG, "Sent Zip Code: " + jsonString);
                         }
                     });
             //restartActivity();
@@ -203,10 +205,10 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         if(difference > SHAKE_TIME_THRESHOLD)
         {
             lastShake = thisShake;
-            zipCode = generateRandomZip();
+            jsonString = generateRandomZip();
             watchAction = ACTION_SEND_RANDOM_ZIP;
             Log.d(TAG, "thisShake: " + thisShake + "   lastShake: " + lastShake + "   diff: " + difference);
-            Log.d(TAG, "from onShake sending random zip: " + zipCode);
+            Log.d(TAG, "from onShake sending random zip: " + jsonString);
             adapter.notifyDataSetChanged();
             mWatchApiClient.disconnect();
             mWatchApiClient.connect();

@@ -61,7 +61,6 @@ public class ChooseLocationActivity extends AppCompatActivity
     private String zip = "00000";
     private String TAG = "Represent!";
     private static int PERMISSION_ACCESS_COURSE_LOCATION = 0, PERMISSION_INTERNET = 1;
-    private int SEND_ZIP = 0, GET_LOCATION = 1, API_ACTION = -1;
     private String REVERSE_GEO_REQUEST = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY";
     private final String COUNTY = "administrative_area_level_2", STATE = "administrative_area_level_1", CITY = "locality", ZIP = "postal_code";
     public static Place currentPlace = null;
@@ -79,39 +78,25 @@ public class ChooseLocationActivity extends AppCompatActivity
         bContinue.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 zip = zipCode.getText().toString();
                 String url = buildUrlFromZip(zip);
                 if(url == null)
                     Toast.makeText(getApplicationContext(), "Please enter a valid postal code", Toast.LENGTH_SHORT).show();
                 else
-                {
-                    API_ACTION = SEND_ZIP;
                     createLocationFromUrl(url);
-                    if(mApiClient.isConnected())
-                        sendWatchZip();
-                    else
-                        mApiClient.connect();
-                }
             }
         });
 
         bUseCurrentLocation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Dummy zip until I see how the API works
-                //zip = "94704";
-                API_ACTION = GET_LOCATION;
-                if(mApiClient.isConnected())
-                    getLocation();
-                else
-                    mApiClient.connect();
-
+                mApiClient.disconnect();
+                mApiClient.connect();
             }
+
         });
 
         mApiClient = new GoogleApiClient.Builder( this )
-                .addApi( Wearable.API )
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -130,50 +115,34 @@ public class ChooseLocationActivity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        if(API_ACTION == SEND_ZIP)
-           sendWatchZip();
-        else if(API_ACTION == GET_LOCATION)
-            getLocation();
-        else
-            Toast.makeText(getApplicationContext(), "Invalid Action", Toast.LENGTH_SHORT).show();
+        String url = buildUrlFromCurrentLocation();
+        if(url == null)
+        {
+            Log.d(TAG, "Error building Url from current location");
+            return;
+        }
+        createLocationFromUrl(url);
 
     }
 
-    private void sendWatchZip()
-    {
-        Wearable.NodeApi.getConnectedNodes(mApiClient)
-                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
-                    @Override
-                    public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
-                        nodes = getConnectedNodesResult.getNodes();
-                        //Log.d("T", "found nodes");
-                        //when we find a connected node, we populate the list declared above
-                        //finally, we can send a message
-                        sendMessage("/zip_code", zip);
-                        //Log.d(TAG, "Sent zipCode from ChooseLocationActivty. Zip= " + zip);
-                        continueToMainActivity();
-                    }
-                });
-    }
-
-    private void getLocation()
+    private String buildUrlFromCurrentLocation()
     {
         if ( ContextCompat.checkSelfPermission( getApplicationContext()
                 , android.Manifest.permission.ACCESS_COARSE_LOCATION )
                 != PackageManager.PERMISSION_GRANTED )
         {
             requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION, PERMISSION_ACCESS_COURSE_LOCATION);
-            return;
+            return null;
         }
+
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
         if(mLastLocation != null)
-        {
-
-            String url = buildUrlFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            createLocationFromUrl(url);
-        }
+             return buildUrlFromLatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         else
+        {
             Toast.makeText(getApplicationContext(), "Error retrieving location.", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     @Override
@@ -185,13 +154,6 @@ public class ChooseLocationActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "ChooseLocationActivity: Connection Failed! Result: " + connectionResult.toString());
 
-    }
-
-    private void sendMessage(final String path, final String text ) {
-        for (Node node : nodes) {
-            Wearable.MessageApi.sendMessage(
-                    mApiClient, node.getId(), path, text.getBytes());
-        }
     }
 
     private void continueToMainActivity()

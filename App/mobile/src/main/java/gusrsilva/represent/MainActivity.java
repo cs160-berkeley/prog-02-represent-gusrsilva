@@ -29,7 +29,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -41,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import gusrsilva.represent.Adapters.RepsAdapter;
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "XI1YkrqjI0iKPWtHpxqvjoxY2";
     private static final String TWITTER_SECRET = "JzCQURwTp98Zip9rN5hNIpM68HGzNMG1DFOLa0qztlHtoO0oLe";
+    private String PATH = "/JSON";
+    private  List<Node> nodes = new ArrayList<>();
+    private JSONObject info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mApiClient = new GoogleApiClient.Builder( this )
                 .addApi( Wearable.API )
-                .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
@@ -105,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         String url = buildUrlFromZip(currentPlace.getZip());
+
+        // Starts a chain: get reps -> get bills -> get committees -> JSON -> send to watch
         createRepListFromUrl(url);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -121,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
         ImageLoader.getInstance().init(config);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mApiClient.disconnect();
     }
 
     @Override
@@ -148,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void moreInfoPressed(View view)
     {
         int pos = Integer.parseInt(view.getTag().toString());
-        Log.d(TAG, "Launching moreInfo with pos: " + pos);
         Intent intent = new Intent(getApplicationContext(), ViewRepresentative.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(REP_NUM, pos);
@@ -167,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void createRepListFromUrl(String url)
     {
-        Log.d(TAG, "Calling createRepListFromUrl()");
 
         if ( ContextCompat.checkSelfPermission( getApplicationContext()
                 , Manifest.permission.INTERNET )
@@ -185,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         // display response
                         try
                         {
-                            Log.d(TAG, "Count: " + response.getString("count"));
                             JSONArray results = response.getJSONArray("results");
                             repList = new ArrayList<>();
                             for(int i=0; i<results.length(); i++)
@@ -348,8 +359,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             THRESHOLD_NUM++;
                         else
                         {
-                            if(index == 0)
-                                Log.d(TAG, "Title: " + title);
                             committees.add(title);
                         }
                     }
@@ -382,6 +391,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 addRepCommitteesFromUrl(url, i);
             }
         }
+
+        transferDataToWatch();
     }
 
     private void updateRecycler()
@@ -410,7 +421,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 jsonObject.put("place", temp);
             }
 
-            Log.d(TAG, "Generated JSON: " + jsonObject.toString());
             return jsonObject;
         }
         catch (JSONException e)
@@ -420,9 +430,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    private void transferDataToWatch()
+    {
+        mApiClient.disconnect(); mApiClient.connect();
+    }
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        info = generateJSONforWatch();
+        if(info == null)
+        {
+            Log.d(TAG, "Error generating JSON for watch");
+            return;
+        }
 
+        // Get Nodes
+        Wearable.NodeApi.getConnectedNodes(mApiClient)
+                .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+                    @Override
+                    public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+                        nodes = getConnectedNodesResult.getNodes();
+                        for (Node node : nodes)
+                        {
+                            Wearable.MessageApi.sendMessage(
+                                    mApiClient, node.getId(), PATH, info.toString().getBytes());
+                            Log.d(TAG, "Sent JSON from MainActivity: " + info.toString());
+                        }
+                        Log.d(TAG, "MainActivity: Length of Nodes: " + nodes.size());
+                    }
+                });
     }
 
     @Override
@@ -432,6 +468,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG, "mobile/MainActivity, could not connect: " + connectionResult.getErrorMessage());
     }
 }
