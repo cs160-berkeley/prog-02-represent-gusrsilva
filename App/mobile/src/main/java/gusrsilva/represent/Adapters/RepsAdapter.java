@@ -1,6 +1,7 @@
 package gusrsilva.represent.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -11,23 +12,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.AppSession;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.TweetView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import gusrsilva.represent.R;
 import gusrsilva.represent.Objects.Rep;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by GusSilva on 2/24/16.
@@ -38,6 +47,7 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
     private Context context;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
+    private String TAG = "Represent!";
 
     public RepsAdapter(ArrayList<Rep> reps, Context c)
     {
@@ -65,7 +75,7 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Rep currentRep = repList.get(position);
+        final Rep currentRep = repList.get(position);
 
         if(holder != null)
         {
@@ -76,17 +86,34 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
             holder.website.setText(currentRep.getWebsite());
             holder.moreInfo.setTag(position);
 
-            // TODO: Base this Tweet ID on some data from elsewhere in your app
-            long tweetId = 631879971628183552L;
-            TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
+
+            TwitterCore.getInstance().logInGuest(new Callback<AppSession>() {
                 @Override
-                public void success(Result<Tweet> result) {
-                    TweetView tweetView = new TweetView(context, result.data);
-                    holder.tweetHolder.addView(tweetView);
+                public void success(Result<AppSession> appSessionResult) {
+                    AppSession session = appSessionResult.data;
+                    TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient(session);
+                    twitterApiClient.getStatusesService().userTimeline(null, currentRep.getTwitterId(), 1, null, null, false, true, false, true, new Callback<List<Tweet>>() {
+                        @Override
+                        public void success(Result<List<Tweet>> listResult) {
+                            for(Tweet tweet: listResult.data) {
+                                TweetView tweetView = new TweetView(context, tweet);
+                                tweetView.setClickable(false);
+                                holder.tweetHolder.addView(tweetView);
+                                holder.tweetHolder.setClickable(false);
+                                holder.latestTweet.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        @Override
+                        public void failure(TwitterException e) {
+                            Log.d(TAG, "TwitterException - Failed to get tweet: " + e.getLocalizedMessage());
+                            e.printStackTrace();
+                        }
+                    });
                 }
                 @Override
-                public void failure(TwitterException exception) {
-                    Log.d("TwitterKit", "Load Tweet failure", exception);
+                public void failure(TwitterException e) {
+                    Log.d(TAG, "Failed to get tweet: " + e.getLocalizedMessage());
+                    e.printStackTrace();
                 }
             });
 
@@ -117,6 +144,7 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
         public ImageView image;
         public Button moreInfo;
         public FrameLayout tweetHolder;
+        private LinearLayout latestTweet;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -129,6 +157,7 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
             image = (ImageView) itemView.findViewById(R.id.rep_image);
             moreInfo = (Button) itemView.findViewById(R.id.more_info);
             tweetHolder = (FrameLayout)itemView.findViewById(R.id.tweet_holder);
+            latestTweet = (LinearLayout)itemView.findViewById(R.id.latest_tweet);
         }
 
     }
