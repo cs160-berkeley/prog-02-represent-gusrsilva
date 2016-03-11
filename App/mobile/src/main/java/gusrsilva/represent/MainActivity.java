@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String PATH = "/JSON";
     private  List<Node> nodes = new ArrayList<>();
     private JSONObject info;
+    int BILLS_THRESHOLD_NUM = 5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,9 +286,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onResponse(JSONObject response) {
                 try {
                     ArrayList<Bill> billList = new ArrayList<>();
-                    int THRESHOLD_NUM = 10;
                     int count = Integer.parseInt(response.getString("count"));
                     JSONArray arr = response.getJSONArray("results");
+                    int THRESHOLD_NUM = BILLS_THRESHOLD_NUM;
                     for(int i = 0; i < arr.length() && i < THRESHOLD_NUM; i++)
                     {
                         Bill bill = new Bill();

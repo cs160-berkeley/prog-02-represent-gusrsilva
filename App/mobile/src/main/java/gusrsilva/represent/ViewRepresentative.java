@@ -1,5 +1,7 @@
 package gusrsilva.represent;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +53,20 @@ public class ViewRepresentative extends AppCompatActivity {
 
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(" ");
+        collapsingToolbarLayout.setBackgroundResource(R.drawable.header);
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
-        collapsingToolbarLayout.setBackgroundResource(R.drawable.capitol);
+
+        LinearLayout header = (LinearLayout)findViewById(R.id.header);
+
+        if(rep.getParty().equalsIgnoreCase("republican"))
+        {
+            collapsingToolbarLayout.setContentScrimColor(rep.getColor());
+            collapsingToolbarLayout.setStatusBarScrimColor(rep.getColor());
+            //fab.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue));
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.dem_blue)));
+            header.setBackgroundColor(rep.getColor());
+
+        }
 
 
         TextView partyType = (TextView)findViewById(R.id.party_type);

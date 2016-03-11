@@ -287,8 +287,8 @@ public class ChooseLocationActivity extends AppCompatActivity
 
     private String generateRandomZip()
     {
-        String[] randomZip = {"90002", "90003", "94207","72202","85054","29020"
-        , "33123", "03127", "97213", "02840", "74148", "59004", "92021" };
+        String[] randomZip = {"72202","85054","29020"
+        , "33123", "97213", "02840", "74148", "92021" };
         Random rand = new Random(System.currentTimeMillis());
         int next = rand.nextInt(randomZip.length) % randomZip.length;
         return randomZip[next];
