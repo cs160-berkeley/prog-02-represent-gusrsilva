@@ -36,3 +36,4 @@ See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
 * nostr13:  UniversalImageLoader
 * Google: Volley
 * mcxiaoke: Volley mirror for easy gradle import
+* PhilJay: MPChart
