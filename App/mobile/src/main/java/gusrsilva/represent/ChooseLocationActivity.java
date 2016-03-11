@@ -87,6 +87,13 @@ public class ChooseLocationActivity extends AppCompatActivity
             }
         });
 
+        if(getIntent() != null && getIntent().getStringExtra(MainActivity.ZIP_CODE) != null)
+        {
+            String zip = getIntent().getStringExtra(MainActivity.ZIP_CODE);
+            zipCode.setText(zip);
+            bContinue.callOnClick();
+        }
+
         bUseCurrentLocation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

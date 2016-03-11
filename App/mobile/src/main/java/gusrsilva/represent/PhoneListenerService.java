@@ -48,7 +48,7 @@ public class PhoneListenerService extends WearableListenerService {
             String zip = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             Log.d(TAG, "PhoneListenerService: ZipCode: " + zip);
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ChooseLocationActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(MainActivity.ZIP_CODE, zip);
             startActivity(intent);

@@ -49,6 +49,7 @@ public class RepsAdapter extends RecyclerView.Adapter<RepsAdapter.ViewHolder> {
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.def)
                 .showImageOnFail(R.drawable.def)
+                .showImageOnLoading(R.drawable.def)
                 .resetViewBeforeLoading(true)  // default
                 .cacheInMemory(true)
                 .displayer(new CircleBitmapDisplayer())

@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         , GoogleApiClient.ConnectionCallbacks, ShakeEventListener.ShakeListener {
 
 
-    public static String TAG = "Represent!", jsonString = "00000";
+    public static String TAG = "Represent!", jsonString, zip = "00000";
     private static GoogleApiClient mWatchApiClient;
     private List<Node> nodes = new ArrayList<>();
     private static int repNumber = -1;
@@ -206,10 +206,10 @@ public class MainActivity extends Activity implements GoogleApiClient.OnConnecti
         if(difference > SHAKE_TIME_THRESHOLD)
         {
             lastShake = thisShake;
-            jsonString = generateRandomZip();
+            zip = generateRandomZip();
             watchAction = ACTION_SEND_RANDOM_ZIP;
             Log.d(TAG, "thisShake: " + thisShake + "   lastShake: " + lastShake + "   diff: " + difference);
-            Log.d(TAG, "from onShake sending random zip: " + jsonString);
+            Log.d(TAG, "from onShake sending random zip: " + zip);
             adapter.notifyDataSetChanged();
             mWatchApiClient.disconnect();
             mWatchApiClient.connect();

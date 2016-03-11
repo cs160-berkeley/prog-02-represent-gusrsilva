@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.CardFrame;
+import android.support.wearable.view.CardScrollView;
 import android.support.wearable.view.GridPagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -54,6 +56,7 @@ public class CardAdapter extends GridPagerAdapter {
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
     private Place place;
+    float obamaPercent = -1, romneyPercent = -1;
 
     public CardAdapter(ArrayList<Rep> reps, Context context, Place p)
     {
@@ -66,6 +69,7 @@ public class CardAdapter extends GridPagerAdapter {
         imageLoader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.def)
+                .showImageOnLoading(R.drawable.def)
                 .showImageOnFail(R.drawable.def)
                 .cacheInMemory(true)
                 .build();
@@ -115,17 +119,21 @@ public class CardAdapter extends GridPagerAdapter {
             if(place != null)
             {
                 TextView location = (TextView)view.findViewById(R.id.location);
-                location.setText(place.getCounty() + ", " + place.getState());
+                if(!place.getCounty().equalsIgnoreCase("null") && !place.getState().equalsIgnoreCase("null"))
+                    location.setText(place.getCounty() + ", " + place.getState());
             }
+
             mChart = (PieChart)view.findViewById(R.id.chart);
-            mChart.setNoDataText("2012 Voting Data Not Available");
+            mChart.setNoDataText("");
             mChart.setUsePercentValues(true);
             mChart.setDescription("");
             mChart.getLegend().setEnabled(false);
             //mChart.setExtraOffsets(5, 10, 5, 5);
-            mChart.setDrawHoleEnabled(false);
+
             get2012Info();
+            mChart.setDrawHoleEnabled(false);
             mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+            mChart.setNoDataText("2012 Voting Data Not Available");
 
         }
         viewGroup.addView(view);
@@ -189,6 +197,12 @@ public class CardAdapter extends GridPagerAdapter {
 
     public void get2012Info()
     {
+
+        if(romneyPercent != -1 || obamaPercent != -1)
+        {
+            setData(obamaPercent, romneyPercent);
+            return;
+        }
         String url = "https://raw.githubusercontent.com/cs160-sp16/voting-data/master/election-county-2012.json";
         RequestQueue queue = Volley.newRequestQueue(mContext);
 
@@ -211,11 +225,11 @@ public class CardAdapter extends GridPagerAdapter {
                             for(int i = 0; i < response.length(); i++)
                             {
                                 JSONObject currObj = response.getJSONObject(i);
-                                if(currObj.getString("county-name").equalsIgnoreCase(county))
+                                if(county.toLowerCase().contains(currObj.getString("county-name").toLowerCase()))
                                 {
                                     //Log.d(TAG, "Found: " + county);
-                                    float obamaPercent = Float.parseFloat(currObj.getString("obama-percentage"));
-                                    float romneyPercent = Float.parseFloat(currObj.getString("romney-percentage"));
+                                    obamaPercent = Float.parseFloat(currObj.getString("obama-percentage"));
+                                    romneyPercent = Float.parseFloat(currObj.getString("romney-percentage"));
                                     //Log.d(TAG, "Calling setData with Obama: " + obamaPercent + " Romney: " + romneyPercent);
                                     setData(obamaPercent, romneyPercent);
                                     return;
