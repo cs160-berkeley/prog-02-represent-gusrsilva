@@ -31,8 +31,8 @@ See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
     Once the user presses 'MORE INFO' from mobile, or clicks a representative from the watch, they are taken to this screen on their phone, which shows the dates serving, recent committees, and recently sponsored bills of the seleted representative. <br>
   </p><br><br><br>
   
-    <p align="center">
-    <img src="screenshots/screen2-1.png" height="600" alt="Screenshot"/>
+  <p align="center">
+  <img src="screenshots/screen2-1.png" height="200" alt="Screenshot"/>
     <br>
     Swiping all the way right in the watch shows the results of the 2012 election voting for the given location.<br>
   </p><br><br><br>
