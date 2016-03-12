@@ -20,15 +20,15 @@ See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
   </p> <br><br><br>
   
   <p align="center">
-    <img src="screenshots/screen2.png" height="600" alt="Screenshot"/>
+    <img src="screenshots/screen2.png" height="600" alt="Screenshot"/><img src="screenshots/screen1-1.png" width="200" alt="Screenshot"/>
     <br>
     The user is then shown the type, name, party, email, website, photo, and latest tweet of each representative for that area.<br>
   </p><br><br><br>
   
   <p align="center">
-    <img src="screenshots/screen3.png" height="600" alt="Screenshot"/>
+    <img src="screenshots/screen3.png" height="600" alt="Screenshot"/><img src="screenshots/screen2-1.png" height="200" alt="Screenshot"/>
     <br>
-    Once the user presses 'MORE INFO', they are taken to this screen, which shows the dates serving, recent committees, and recently sponsored bills of the seleted representative. <br>
+    Once the user presses 'MORE INFO' from mobile, or clicks a representative from the watch, they are taken to this screen on their phone, which shows the dates serving, recent committees, and recently sponsored bills of the seleted representative. <br>
   </p><br><br><br>
 
 ## Acknowledgments
@@ -36,4 +36,4 @@ See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
 * nostr13:  UniversalImageLoader
 * Google: Volley
 * mcxiaoke: Volley mirror for easy gradle import
-* PhilJay: MPChart
+* PhilJay: MPAndroidChart
