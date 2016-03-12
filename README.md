@@ -20,9 +20,9 @@ See [Video Walkthrough] (https://youtu.be/diJY8a1a11Y)
   </p> <br><br><br>
   
   <p align="center">
-    <img src="screenshots/screen2.png" height="600" alt="Screenshot"/>
+    <img src="screenshots/screen2.png" height="600" alt="Screenshot"/><img src="screenshots/screen1-1.png" height="200" alt="Screenshot"/>
     <br>
-    The user is then shown the type, name, party, email, website, photo, and latest tweet of each representative for that area.<br>
+    The user is then shown the type, name, party, email, website, photo, and latest tweet of each representative for that area. The companion watch app is also automatically launched, displaying the representatives in a horizontally scrolling view.<br>
   </p><br><br><br>
   
   <p align="center">
